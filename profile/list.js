@@ -90,40 +90,15 @@ var profileConfig = {
   "socialGroups": {
     "facebookGroups": [
       {
-        "id": "fb_voitt",
-        "name": "Spac2 check",
-        "members": "2 thành viên",
-        "url": "https://fb.com/spac2com",
-        "icon": "https://www.facebook.com/favicon.ico",
-        "desc": "oke 200"
-      },
-      {
-        "id": "fb_qdy8v",
-        "name": "Chợ Mua Bán Acc ROK Uy Tín (Admin Meo Meo)",
-        "members": "28.000+ thành viên",
+        "id": "fb_v1516",
+        "name": "Spac2 TESS",
+        "members": "10.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
-        "icon": "https://www.google.com/s2/favicons?domain=facebook.com&sz=128",
-        "desc": "Đăng tin mua bán acc, định giá tài khoản an toàn 24/7"
+        "icon": "https://facebook.com/favicon.ico",
+        "desc": "ok200"
       }
     ],
-    "zaloGroups": [
-      {
-        "id": "zl_xnato",
-        "name": "Box Zalo Giao Dịch ROK VIP 1",
-        "members": "1.000 thành viên (Đầy)",
-        "url": "https://zalo.me/g/xxxxxx",
-        "icon": "https://www.google.com/s2/favicons?domain=zalo.me&sz=128",
-        "desc": "Cập nhật tài khoản xả lỗ, giá tốt hằng ngày"
-      },
-      {
-        "id": "zl_uuie1",
-        "name": "Box Zalo Giao Dịch & Hỗ Trợ ROK VIP 2",
-        "members": "850 thành viên",
-        "url": "https://zalo.me/g/yyyyyy",
-        "icon": "https://www.google.com/s2/favicons?domain=zalo.me&sz=128",
-        "desc": "Hỗ trợ định giá acc, trung gian giao dịch bảo hiểm 100%"
-      }
-    ]
+    "zaloGroups": []
   },
   "banks": [
     {
