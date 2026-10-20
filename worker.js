@@ -107,7 +107,7 @@ export default {
     const GITHUB_TOKEN = env.GITHUB_TOKEN;
     const REPO_OWNER = env.REPO_OWNER;
     const REPO_NAME = env.REPO_NAME;
-    const DEFAULT_FILE_PATH = env.FILE_PATH || "profile/list.js";
+    const DEFAULT_FILE_PATH = env.FILE_PATH || "list.js";
     const BRANCH = env.BRANCH || "main";
     const ADMIN_SECRET = env.ADMIN_SECRET;
 
@@ -237,9 +237,7 @@ export default {
       }
 
       const commitMessage = body.message || "Profile CMS: update profile config";
-      const targetPaths = body.targetPaths || (body.updateBoth
-        ? ["profile/list.js", "js/list.js", "list.js"] // Đồng bộ cả profile/list.js, js/list.js và list.js
-        : [body.filePath || DEFAULT_FILE_PATH]);
+      const targetPaths = body.targetPaths || [body.filePath || DEFAULT_FILE_PATH || "list.js"];
 
       const results = [];
 
@@ -285,7 +283,7 @@ export default {
             );
           }
 
-          // Bước 3: Mã hóa Base64 và commit file lên GitHub
+          // Bước 3: Mã hóa Base64 và commit file lên GitHub (Ghi đè file cũ nếu có sha)
           const base64Content = utf8ToBase64(finalContent);
           const putPayload = {
             message: commitMessage,
@@ -314,7 +312,7 @@ export default {
               filePath: targetPath,
               success: false,
               status: putRes.status,
-              error: putData.message || "Không thể commit file lên GitHub",
+              error: putData.message || (putRes.status === 404 ? "Không tìm thấy repository hoặc đường dẫn file" : "Không thể commit file lên GitHub"),
               details: putData,
             });
           } else {
@@ -329,18 +327,32 @@ export default {
         }
 
         const allSuccess = results.every((r) => r.success);
+        const failedItem = results.find((r) => !r.success);
+
+        let errorSummary = undefined;
+        if (!allSuccess && failedItem) {
+          if (failedItem.status === 404) {
+            errorSummary = `GitHub báo 404 Not Found! Repo "${REPO_OWNER}/${REPO_NAME}" không tìm thấy hoặc Token không có quyền truy cập repo này. Vui lòng kiểm tra REPO_OWNER=spac2dev và REPO_NAME=infomeomeorise trong Cloudflare Worker.`;
+          } else if (failedItem.status === 401 || failedItem.status === 403) {
+            errorSummary = `GitHub báo lỗi xác thực (${failedItem.status}): ${failedItem.error}. Vui lòng kiểm tra lại GITHUB_TOKEN xem đã cấp quyền 'repo'/'contents:write' chưa.`;
+          } else {
+            errorSummary = `GitHub Error (${failedItem.status}): ${failedItem.error}`;
+          }
+        }
 
         return jsonResponse(
           {
             success: allSuccess,
             message: allSuccess
               ? "Cập nhật cấu hình Profile lên GitHub thành công!"
-              : "Có lỗi xảy ra trong quá trình cập nhật Profile lên GitHub.",
+              : (errorSummary || "Có lỗi xảy ra trong quá trình cập nhật Profile lên GitHub."),
+            error: errorSummary,
             repo: `${REPO_OWNER}/${REPO_NAME}`,
             branch: BRANCH,
             results,
-            notice:
-              "Lưu thành công! Vui lòng đợi 1-3 phút để GitHub / Cloudflare Pages tự động cập nhật lại trang cá nhân.",
+            notice: allSuccess
+              ? "Lưu thành công! Vui lòng đợi 1-3 phút để GitHub / Cloudflare Pages tự động cập nhật lại trang cá nhân."
+              : undefined,
           },
           allSuccess ? 200 : 502
         );

@@ -1839,9 +1839,8 @@ if (typeof module !== "undefined" && module.exports) {
 
         const payload = {
           content: fileContent,
-          filePath: "profile/list.js",
-          message: `Admin CMS update profile config (${currentProfile.brand?.name || 'Meo Meo Rise'})`,
-          updateBoth: true // Đồng bộ profile/list.js, js/list.js và list.js
+          filePath: "list.js",
+          message: `Admin CMS update profile config (${currentProfile.brand?.name || 'Meo Meo Rise'})`
         };
 
         const res = await fetch(workerUrl, {
