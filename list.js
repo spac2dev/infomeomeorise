@@ -92,7 +92,7 @@ var profileConfig = {
     "zaloDesc": "Box Zalo VIP giao dịch & hỗ trợ 24/7",
     "facebookGroups": [
       {
-        "id": "fb_3gega",
+        "id": "fb_t8whq",
         "name": "Cộng Đồng Rise Of Kingdoms Việt Nam",
         "members": "55.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
@@ -100,7 +100,7 @@ var profileConfig = {
         "desc": "Giao lưu, chia sẻ kinh nghiệm chiến thuật và hỗ trợ tân thủ ROK"
       },
       {
-        "id": "fb_dk43b",
+        "id": "fb_hmthv",
         "name": "Chợ Mua Bán Acc ROK Uy Tín (Admin Meo Meo)",
         "members": "28.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
@@ -110,7 +110,7 @@ var profileConfig = {
     ],
     "zaloGroups": [
       {
-        "id": "zl_la9ck",
+        "id": "zl_2jvsq",
         "name": "Box Zalo Giao Dịch ROK VIP 1",
         "members": "1.000 thành viên (Đầy)",
         "url": "https://zalo.me/84949257924",
@@ -118,7 +118,7 @@ var profileConfig = {
         "desc": "Cập nhật tài khoản xả lỗ, giá tốt hằng ngày"
       },
       {
-        "id": "zl_vieu3",
+        "id": "zl_uk3fy",
         "name": "Box Zalo Giao Dịch & Hỗ Trợ ROK VIP 2",
         "members": "850 thành viên",
         "url": "https://zalo.me/84949257924",
@@ -187,7 +187,7 @@ var profileConfig = {
     "sloganTitle": "Rise Of KingDoms - Uy Tín Tạo Nên Thương Hiệu",
     "aboutText": "- Trung Gian Giao Dịch\n- Phát Triển Cộng Đồng Rok\n- Tư Vấn Mọi Chức Năng Game Rok",
     "copyrightYear": 2026,
-    "copyrightText": "Rise Of KingDoms Services. All Rights Reserved."
+    "copyrightText": "Meo Meo Rise Services. All Rights Reserved."
   }
 };
 
