@@ -18,8 +18,10 @@ toàn với Worker quản lý tài khoản game.
   riêng trong trình duyệt với khóa `wontrade_profile_worker_url` và
   `wontrade_profile_worker_secret`, không ghi đè cài đặt của trang quản lý tài
   khoản.
-- **Tự động bảo toàn dữ liệu**: Khi Profile Worker cập nhật `profileConfig`, nó
-  tự động đọc nội dung file trên GitHub để giữ nguyên 100% mảng `mockProducts`.
+- **Tự động tối ưu SEO & MXH (Mô hình SSG)**: Khi Profile Worker cập nhật, nó
+  tự động inject thông tin Profile, Thẻ Title, Meta Description, Thẻ OpenGraph (Facebook/Zalo)
+  và nhúng trực tiếp cấu hình `profileConfig` vào `index.html` trên GitHub. Nhờ đó,
+  Googlebot và các crawler của MXH đọc được ngay lập tức 100% dữ liệu mà không cần chạy JS.
 
 ---
 
@@ -50,7 +52,7 @@ Thêm các biến môi trường sau vào Worker:
 | `GITHUB_TOKEN`      | `ghp_xxxxxx...`                   |  **Có**  | Personal Access Token có quyền `repo` hoặc `contents:write` |
 | `REPO_OWNER`        | `spac2dev`                        |  **Có**  | Tên tài khoản GitHub của bạn |
 | `REPO_NAME`         | `infomeomeorise`                  |  **Có**  | Tên repository chứa mã nguồn website |
-| `FILE_PATH`         | `list.js`                         |  Không   | Mặc định: `list.js` (nằm ở thư mục gốc repo) |
+| `FILE_PATH`         | `index.html`                      |  Không   | Mặc định: `index.html` (nằm ở thư mục gốc repo) |
 | `BRANCH`            | `main`                            |  Không   | Nhánh Git cần commit (mặc định: `main`) |
 | `ADMIN_SECRET`      | *(Để trống nếu không dùng)*       |  Không   | Khóa bảo mật tùy chọn |
 

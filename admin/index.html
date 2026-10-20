@@ -668,13 +668,13 @@
         </a>
 
         <!-- Export Backup -->
-        <button class="btn btn-secondary" onclick="exportListJsFile()" title="Tải file list.js về máy dự phòng">
+        <button class="btn btn-secondary" onclick="exportConfigFile()" title="Tải file cấu hình dự phòng">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          <span>Tải list.js</span>
+          <span>Tải cấu hình</span>
         </button>
 
         <!-- View Raw Code -->
-        <button class="btn btn-secondary" onclick="openRawCodeModal()" title="Xem mã nguồn JS">
+        <button class="btn btn-secondary" onclick="openRawCodeModal()" title="Xem mã nguồn cấu hình">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
           <span>Xem Code</span>
         </button>
@@ -695,10 +695,10 @@
     <div class="publish-success-banner" id="publishSuccessBanner">
       <div class="banner-title-row">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <span>Đã lưu thành công thông tin Profile vào file list.js trên GitHub!</span>
+        <span>Đã lưu thành công thông tin Profile &amp; Thẻ SEO vào file index.html trên GitHub!</span>
       </div>
       <div class="banner-desc">
-        Vui lòng đợi <strong>1 - 3 phút</strong> để hệ thống GitHub / Cloudflare Pages tự động build lại trang Profile cho khách hàng.
+        Vui lòng đợi <strong>1 - 3 phút</strong> để hệ thống GitHub / Cloudflare Pages tự động cập nhật lại trang Profile cho khách hàng và các bot tìm kiếm.
       </div>
     </div>
 
@@ -1223,9 +1223,23 @@
       if (document.getElementById("workerUrlInput")) document.getElementById("workerUrlInput").value = savedWorkerUrl;
       if (document.getElementById("workerSecretInput")) document.getElementById("workerSecretInput").value = savedSecret;
 
-      // 2. Nạp cấu hình từ list.js (nếu có window.profileConfig)
+      // 2. Nạp cấu hình từ window.profileConfig hoặc fetch từ ../index.html
       if (typeof window.profileConfig !== "undefined" && window.profileConfig) {
         currentProfile = JSON.parse(JSON.stringify(window.profileConfig));
+      } else {
+        // Tự động đọc từ ../index.html nếu mở trực tiếp trên server/localhost
+        try {
+          fetch("../index.html?v=" + Date.now())
+            .then(res => res.text())
+            .then(html => {
+              const match = html.match(/var\s+profileConfig\s*=\s*(\{[\s\S]*?\});/);
+              if (match) {
+                currentProfile = JSON.parse(match[1]);
+                populateFormData();
+              }
+            })
+            .catch(() => {});
+        } catch (e) {}
       }
 
       // 3. Đổ dữ liệu vào biểu mẫu
@@ -1731,57 +1745,39 @@
       };
     }
 
-    // TẠO NỘI DUNG FILE list.js HOÀN CHỈNH
-    function generateListJsString() {
+    // TẠO NỘI DUNG CẤU HÌNH PROFILE HOÀN CHỈNH
+    function generateProfileConfigString() {
       collectCurrentFormData();
-      const existingProducts = (typeof window !== "undefined" && Array.isArray(window.mockProducts)) ? window.mockProducts : [];
-      const jsonProducts = JSON.stringify(existingProducts, null, 2);
       const jsonProfile = JSON.stringify(currentProfile, null, 2);
 
-      return `/**
- * ==============================================================================
- * WONTRADE - RISE OF KINGDOMS TRADING PLATFORM & PROFILE CMS
- * FILE QUẢN LÝ DANH SÁCH VẬT PHẨM & CẤU HÌNH PROFILE ĐẠI DIỆN
- * Cập nhật tự động qua WONTRADE Admin CMS & Cloudflare Worker
- * ==============================================================================
- */
-
-var mockProducts = ${jsonProducts};
-
-// CẤU HÌNH THÔNG TIN PROFILE (Được quản lý tự động qua /profile/admin/index.html & Cloudflare Worker)
+      return `// CẤU HÌNH THÔNG TIN PROFILE (Được quản lý tự động qua /profile/admin/index.html & Cloudflare Worker)
 var profileConfig = ${jsonProfile};
 
-// Gán vào window để đảm bảo tương thích mọi ngữ cảnh trình duyệt
 if (typeof window !== "undefined") {
-  window.mockProducts = mockProducts;
   window.profileConfig = profileConfig;
-}
-
-// Hỗ trợ môi trường Module/NodeJS nếu cần
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { mockProducts, profileConfig };
 }
 `;
     }
 
-    // Xuất file tải về máy
-    function exportListJsFile() {
-      const content = generateListJsString();
-      const blob = new Blob([content], { type: "application/javascript;charset=utf-8" });
+    // Xuất file cấu hình tải về máy dự phòng
+    function exportConfigFile() {
+      collectCurrentFormData();
+      const content = JSON.stringify(currentProfile, null, 2);
+      const blob = new Blob([content], { type: "application/json;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "list.js";
+      a.download = "profileConfig.json";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("Đã tải file list.js về máy thành công!", "success");
+      showToast("Đã tải file profileConfig.json về máy thành công!", "success");
     }
 
     // Xem trước mã nguồn file
     function openRawCodeModal() {
-      const code = generateListJsString();
+      const code = generateProfileConfigString();
       document.getElementById("rawCodePreview").textContent = code;
       document.getElementById("codeModalBackdrop").classList.add("show");
     }
@@ -1791,9 +1787,9 @@ if (typeof module !== "undefined" && module.exports) {
     }
 
     function copyRawCodeToClipboard() {
-      const code = generateListJsString();
+      const code = generateProfileConfigString();
       navigator.clipboard.writeText(code).then(() => {
-        showToast("Đã sao chép toàn bộ code list.js vào bộ nhớ tạm!", "success");
+        showToast("Đã sao chép cấu hình profileConfig vào bộ nhớ tạm!", "success");
       });
     }
 
@@ -1814,7 +1810,7 @@ if (typeof module !== "undefined" && module.exports) {
         const headers = {};
         if (secret) headers["X-Admin-Key"] = secret;
 
-        const testUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}owner=spac2dev&repo=infomeomeorise&path=list.js`;
+        const testUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}owner=spac2dev&repo=infomeomeorise&path=index.html`;
         const res = await fetch(testUrl, { method: "GET", headers });
         const text = await res.text();
         let data;
@@ -1828,7 +1824,12 @@ if (typeof module !== "undefined" && module.exports) {
         }
 
         if (res.ok && data.success) {
-          showToast(`Kết nối Worker & GitHub thành công! (${data.repo || "OK"})`, "success");
+          showToast(`Kết nối Worker & GitHub (index.html) thành công! (${data.repo || "OK"})`, "success");
+          // Nếu có profile trên GitHub trả về, tự động cập nhật lại form
+          if (data.profile) {
+            currentProfile = data.profile;
+            populateFormData();
+          }
         } else {
           showToast(`Lỗi Worker: ${data.error || res.statusText}`, "error");
         }
@@ -1838,7 +1839,7 @@ if (typeof module !== "undefined" && module.exports) {
     }
 
     // ========================================================================
-    // BẮN POST REQUEST LÊN CLOUDFLARE WORKER ĐỂ COMMIT GITHUB
+    // BẮN POST REQUEST LÊN CLOUDFLARE WORKER ĐỂ CẬP NHẬT TRỰC TIẾP INDEX.HTML
     // ========================================================================
     async function publishProfileToGithub() {
       saveWorkerSettings();
@@ -1857,8 +1858,7 @@ if (typeof module !== "undefined" && module.exports) {
       btnText.textContent = "ĐANG LƯU LÊN GITHUB...";
 
       try {
-        // Sinh toàn bộ chuỗi list.js hoàn chỉnh
-        const fileContent = generateListJsString();
+        collectCurrentFormData();
 
         const headers = {
           "Content-Type": "application/json"
@@ -1868,11 +1868,11 @@ if (typeof module !== "undefined" && module.exports) {
         }
 
         const payload = {
-          content: fileContent,
-          filePath: "list.js",
+          profile: currentProfile,
+          filePath: "index.html",
           repoOwner: "spac2dev",
           repoName: "infomeomeorise",
-          message: `Admin CMS update profile config (${currentProfile.brand?.name || 'Meo Meo Rise'})`
+          message: `Admin CMS update profile & SEO in index.html (${currentProfile.brand?.name || 'Meo Meo Rise'})`
         };
 
         const res = await fetch(workerUrl, {
@@ -1898,7 +1898,7 @@ if (typeof module !== "undefined" && module.exports) {
           banner.classList.add("show");
           window.scrollTo({ top: 0, behavior: "smooth" });
 
-          showToast("Lưu thành công thông tin Profile! Vui lòng đợi 1-3 phút để hệ thống cập nhật.", "success");
+          showToast("Lưu thành công thông tin Profile & Thẻ SEO vào index.html!", "success");
         } else {
           showToast(`Lỗi khi lưu: ${data.error || data.details || "Không rõ nguyên nhân"}`, "error");
         }
