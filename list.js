@@ -11,7 +11,7 @@ var mockProducts = [];
 // CẤU HÌNH THÔNG TIN PROFILE (Được quản lý tự động qua /profile/admin/index.html & Cloudflare Worker)
 var profileConfig = {
   "brand": {
-    "name": "Meo Meo Rise",
+    "name": "Meo Meo Rise check",
     "title": "Rise Of KingDoms",
     "slogan": "Trung Gian Giao Dịch & Dịch Vụ ROK Uy Tín",
     "websiteName": "MEOMEORISE.com",
@@ -90,7 +90,7 @@ var profileConfig = {
   "socialGroups": {
     "facebookGroups": [
       {
-        "id": "fb_97gzh",
+        "id": "fb_8pjd4",
         "name": "Spac2 com",
         "members": "55.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
@@ -98,7 +98,7 @@ var profileConfig = {
         "desc": "Giao lưu, chia sẻ kinh nghiệm chiến thuật và hỗ trợ tân thủ ROK"
       },
       {
-        "id": "fb_z814i",
+        "id": "fb_fk2o8",
         "name": "Chợ Mua Bán Acc ROK Uy Tín (Admin Meo Meo)",
         "members": "28.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
@@ -108,7 +108,7 @@ var profileConfig = {
     ],
     "zaloGroups": [
       {
-        "id": "zl_2w8nk",
+        "id": "zl_97oen",
         "name": "Box Zalo Giao Dịch ROK VIP 1",
         "members": "1.000 thành viên (Đầy)",
         "url": "https://zalo.me/g/xxxxxx",
@@ -116,7 +116,7 @@ var profileConfig = {
         "desc": "Cập nhật tài khoản xả lỗ, giá tốt hằng ngày"
       },
       {
-        "id": "zl_af5b2",
+        "id": "zl_kcvoe",
         "name": "Box Zalo Giao Dịch & Hỗ Trợ ROK VIP 2",
         "members": "850 thành viên",
         "url": "https://zalo.me/g/yyyyyy",
