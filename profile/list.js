@@ -90,7 +90,7 @@ var profileConfig = {
   "socialGroups": {
     "facebookGroups": [
       {
-        "id": "fb_v1516",
+        "id": "fb_jjnno",
         "name": "Spac2 TESS",
         "members": "10.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
