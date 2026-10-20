@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. Modal QR Ngân Hàng
   initQrModal();
 
+  // 4.1. Modal Danh Sách Nhóm Cộng Đồng (Facebook / Zalo)
+  initGroupsModal();
+
   // 5. Scroll to top & Header Scroll Thông Minh
   initScrollActions();
 
@@ -175,6 +178,9 @@ function showToast(message) {
 
 function initCopyActions() {
   document.querySelectorAll('[data-copy]').forEach(btn => {
+    if (btn._hasCopyInit) return;
+    btn._hasCopyInit = true;
+
     // Lưu lại icon SVG gốc
     btn.dataset.originalSvg = btn.innerHTML;
 
@@ -276,6 +282,126 @@ function initQrModal() {
     if (e.key === 'Escape' && modal.classList.contains('active')) {
       closeModal();
     }
+  });
+}
+
+/* ===================================================
+   4.1. MODAL DANH SÁCH NHÓM CỘNG ĐỒNG (FACEBOOK / ZALO)
+   =================================================== */
+function initGroupsModal() {
+  const modal = document.getElementById('groupsModal');
+  const modalCloseBtn = document.getElementById('groupsModalCloseBtn');
+  const modalTitle = document.getElementById('groupsModalTitle');
+  const modalIconBadge = document.getElementById('groupsModalIconBadge');
+  const modalList = document.getElementById('groupsModalList');
+
+  if (!modal) return;
+
+  const closeModal = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+
+  // Mở popup nhóm theo loại: 'facebook' hoặc 'zalo'
+  window.openGroupsModal = function(type) {
+    const cfg = (typeof window !== "undefined" && window.profileConfig) ? window.profileConfig : {};
+    const sg = cfg.socialGroups || {};
+
+    if (type === 'facebook') {
+      const fbGroups = Array.isArray(sg.facebookGroups) ? sg.facebookGroups : [];
+      if (modalIconBadge) {
+        modalIconBadge.className = 'groups-modal-icon-badge fb-icon-bg';
+        modalIconBadge.innerHTML = `
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#ffffff">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        `;
+      }
+      if (modalTitle) modalTitle.textContent = 'Danh Sách Nhóm Facebook';
+
+      renderGroupItems(fbGroups, 'facebook');
+    } else {
+      const zlGroups = Array.isArray(sg.zaloGroups) ? sg.zaloGroups : [];
+      if (modalIconBadge) {
+        modalIconBadge.className = 'groups-modal-icon-badge zalo-icon-bg';
+        modalIconBadge.innerHTML = `
+          <img src="https://www.google.com/s2/favicons?domain=zalo.me&sz=128" alt="Zalo" style="width:26px;height:26px;object-fit:contain;" onerror="this.onerror=null;this.src='https://zalo.me/favicon.ico'">
+        `;
+      }
+      if (modalTitle) modalTitle.textContent = 'Danh Sách Box Zalo';
+
+      renderGroupItems(zlGroups, 'zalo');
+    }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  function renderGroupItems(groups, type) {
+    if (!modalList) return;
+
+    if (!groups || groups.length === 0) {
+      modalList.innerHTML = `
+        <div style="text-align: center; padding: 36px 16px; color: var(--text-muted); font-size: 0.9rem;">
+          <p style="margin-bottom: 6px; font-weight: 700; color: var(--text-main);">Chưa có nhóm nào trong danh sách</p>
+          <span style="font-size: 0.82rem;">Vui lòng liên hệ trực tiếp Admin qua Zalo hoặc Hotline để được hỗ trợ tham gia nhóm mới nhất!</span>
+        </div>
+      `;
+      return;
+    }
+
+    const defaultIcon = type === 'facebook'
+      ? 'https://www.google.com/s2/favicons?domain=facebook.com&sz=128'
+      : 'https://www.google.com/s2/favicons?domain=zalo.me&sz=128';
+
+    modalList.innerHTML = groups.map(item => `
+      <div class="group-popup-item">
+        <div class="group-popup-logo">
+          <img src="${escapeHtml(item.icon || defaultIcon)}" alt="${escapeHtml(item.name || '')}" onerror="this.onerror=null;this.src='${defaultIcon}'">
+        </div>
+        <div class="group-popup-info">
+          <div class="group-popup-title-row">
+            <span class="group-popup-name">${escapeHtml(item.name || '')}</span>
+            ${item.members ? `<span class="group-popup-members">${escapeHtml(item.members)}</span>` : ''}
+          </div>
+          ${item.desc ? `<p class="group-popup-desc">${escapeHtml(item.desc)}</p>` : ''}
+        </div>
+        <div class="group-popup-actions">
+          <a href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener noreferrer" class="group-popup-join-btn" title="Tham gia: ${escapeHtml(item.name || '')}">
+            <span>Tham gia</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Bắt sự kiện click và phím Enter/Space trên các thẻ lớn danh mục
+  document.querySelectorAll('[data-open-groups]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const type = card.getAttribute('data-open-groups');
+      window.openGroupsModal(type);
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const type = card.getAttribute('data-open-groups');
+        window.openGroupsModal(type);
+      }
+    });
   });
 }
 
@@ -560,70 +686,20 @@ function renderProfileFromConfig() {
     }
   }
 
-  // 6. TAB 1: MẠNG XÃ HỘI (PHÂN THÀNH 2 MỤC: NHÓM FACEBOOK & NHÓM ZALO)
-  const fbGroups = (cfg.socialGroups && Array.isArray(cfg.socialGroups.facebookGroups)) ? cfg.socialGroups.facebookGroups : [];
-  const fbContainer = document.getElementById('facebookGroupsContainer');
-  if (fbContainer) {
-    if (fbGroups.length > 0) {
-      fbContainer.innerHTML = fbGroups.map(g => {
-        const iconUrl = g.icon || 'https://www.google.com/s2/favicons?domain=facebook.com&sz=128';
-        return `
-        <div class="transfer-item-row" style="background: #ffffff; border-color: rgba(24, 119, 242, 0.2); box-shadow: 0 4px 14px rgba(24, 119, 242, 0.06); transition: all 0.25s ease;">
-          <div class="transfer-bank-logo" style="width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, #f0f6ff, #e5edff); border: 1.5px solid rgba(24, 119, 242, 0.2); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 12px rgba(24, 119, 242, 0.12);">
-            <img src="${escapeHtml(iconUrl)}" alt="Facebook Group" style="width: 32px; height: 32px; border-radius: 8px; object-fit: contain;" onerror="this.onerror=null;this.src='https://www.facebook.com/favicon.ico'">
-          </div>
-          <div class="transfer-item-content">
-            <span class="transfer-holder-name" style="font-size: 0.95rem; text-transform: none; color: var(--text-main); font-weight: 800;">${escapeHtml(g.name)}</span>
-            <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
-              <span class="transfer-bank-label" style="font-size: 0.82rem; color: var(--text-muted);">${escapeHtml(g.desc || '')}</span>
-              ${g.members ? `<span style="font-size: 0.72rem; font-weight: 700; color: #1877f2; background: rgba(24, 119, 242, 0.1); padding: 2px 8px; border-radius: 9999px;">${escapeHtml(g.members)}</span>` : ''}
-            </div>
-          </div>
-          <div class="transfer-item-actions">
-            <a href="${escapeHtml(g.url)}" target="_blank" rel="noopener noreferrer" class="btn-updating-contact" style="padding: 8px 18px; font-size: 0.84rem; font-weight: 700; background: #1877f2; color: #fff; text-decoration: none; border-radius: 9999px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 3px 10px rgba(24, 119, 242, 0.3); transition: transform 0.2s, box-shadow 0.2s;">
-              <span>Tham gia</span>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </a>
-          </div>
-        </div>
-      `;
-      }).join('');
-    } else {
-      fbContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 14px;">Chưa có nhóm Facebook nào được thêm.</div>`;
-    }
-  }
+  // 6. TAB 1: CỘNG ĐỒNG & MẠNG XÃ HỘI (2 MỤC LỚN: NHÓM FACEBOOK & NHÓM ZALO -> BẤM MỞ POPUP)
+  const sg = cfg.socialGroups || {};
+  const fbGroupsCount = Array.isArray(sg.facebookGroups) ? sg.facebookGroups.length : 0;
+  const zlGroupsCount = Array.isArray(sg.zaloGroups) ? sg.zaloGroups.length : 0;
 
-  const zlGroups = (cfg.socialGroups && Array.isArray(cfg.socialGroups.zaloGroups)) ? cfg.socialGroups.zaloGroups : [];
-  const zlContainer = document.getElementById('zaloGroupsContainer');
-  if (zlContainer) {
-    if (zlGroups.length > 0) {
-      zlContainer.innerHTML = zlGroups.map(g => {
-        const iconUrl = g.icon || 'https://www.google.com/s2/favicons?domain=zalo.me&sz=128';
-        return `
-        <div class="transfer-item-row" style="background: #ffffff; border-color: rgba(0, 104, 255, 0.2); box-shadow: 0 4px 14px rgba(0, 104, 255, 0.06); transition: all 0.25s ease;">
-          <div class="transfer-bank-logo" style="width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, #f0f7ff, #e5f1ff); border: 1.5px solid rgba(0, 104, 255, 0.2); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0, 104, 255, 0.12);">
-            <img src="${escapeHtml(iconUrl)}" alt="Zalo Group" style="width: 32px; height: 32px; border-radius: 8px; object-fit: contain;" onerror="this.onerror=null;this.src='https://zalo.me/favicon.ico'">
-          </div>
-          <div class="transfer-item-content">
-            <span class="transfer-holder-name" style="font-size: 0.95rem; text-transform: none; color: var(--text-main); font-weight: 800;">${escapeHtml(g.name)}</span>
-            <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
-              <span class="transfer-bank-label" style="font-size: 0.82rem; color: var(--text-muted);">${escapeHtml(g.desc || '')}</span>
-              ${g.members ? `<span style="font-size: 0.72rem; font-weight: 700; color: #0068ff; background: rgba(0, 104, 255, 0.1); padding: 2px 8px; border-radius: 9999px;">${escapeHtml(g.members)}</span>` : ''}
-            </div>
-          </div>
-          <div class="transfer-item-actions">
-            <a href="${escapeHtml(g.url)}" target="_blank" rel="noopener noreferrer" class="btn-updating-contact" style="padding: 8px 18px; font-size: 0.84rem; font-weight: 700; background: #0068ff; color: #fff; text-decoration: none; border-radius: 9999px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 3px 10px rgba(0, 104, 255, 0.3); transition: transform 0.2s, box-shadow 0.2s;">
-              <span>Vào box</span>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </a>
-          </div>
-        </div>
-      `;
-      }).join('');
-    } else {
-      zlContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 14px;">Chưa có nhóm Zalo nào được thêm.</div>`;
-    }
-  }
+  const fbCountEl = document.getElementById('fbGroupsCount');
+  if (fbCountEl) fbCountEl.textContent = `${fbGroupsCount} nhóm`;
+  const zlCountEl = document.getElementById('zaloGroupsCount');
+  if (zlCountEl) zlCountEl.textContent = `${zlGroupsCount} nhóm`;
+
+  const fbDescEl = document.getElementById('fbGroupsDesc');
+  if (fbDescEl && sg.facebookDesc) fbDescEl.textContent = sg.facebookDesc;
+  const zlDescEl = document.getElementById('zaloGroupsDesc');
+  if (zlDescEl && sg.zaloDesc) zlDescEl.textContent = sg.zaloDesc;
 
   // 7. TAB 2: THÔNG TIN CHUYỂN KHOẢN (NGÂN HÀNG & QR CODE)
   if (Array.isArray(cfg.banks) && cfg.banks.length > 0) {

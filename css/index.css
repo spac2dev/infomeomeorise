@@ -1449,6 +1449,356 @@ body {
   border-radius: var(--radius-sm);
 }
 
+/* --- 12.1. THẺ LỚN MẠNG XÃ HỘI (NHÓM FACEBOOK & NHÓM ZALO) --- */
+.social-category-cards-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.social-category-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+  user-select: none;
+  width: 100%;
+  outline: none;
+}
+
+.social-category-card:hover,
+.social-category-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.social-category-card:active {
+  transform: scale(0.99);
+}
+
+.social-category-card.fb-card {
+  border-left: 5px solid #1877f2;
+}
+
+.social-category-card.fb-card:hover,
+.social-category-card.fb-card:focus-visible {
+  border-color: rgba(24, 119, 242, 0.5);
+  border-left: 5px solid #1877f2;
+  box-shadow: 0 8px 24px rgba(24, 119, 242, 0.15);
+}
+
+.social-category-card.zalo-card {
+  border-left: 5px solid #0068ff;
+}
+
+.social-category-card.zalo-card:hover,
+.social-category-card.zalo-card:focus-visible {
+  border-color: rgba(0, 104, 255, 0.5);
+  border-left: 5px solid #0068ff;
+  box-shadow: 0 8px 24px rgba(0, 104, 255, 0.15);
+}
+
+.social-card-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.social-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.social-card-icon.fb-icon-bg {
+  background: linear-gradient(135deg, #1877f2, #0d65d9);
+  color: #ffffff;
+}
+
+.social-card-icon.zalo-icon-bg {
+  background: #ffffff;
+  border: 1.5px solid rgba(0, 104, 255, 0.2);
+}
+
+.social-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.social-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.social-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.2px;
+}
+
+.social-card-badge {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+}
+
+.social-card-badge.fb-badge {
+  color: #1877f2;
+  background: rgba(24, 119, 242, 0.1);
+  border: 1px solid rgba(24, 119, 242, 0.2);
+}
+
+.social-card-badge.zalo-badge {
+  color: #0068ff;
+  background: rgba(0, 104, 255, 0.1);
+  border: 1px solid rgba(0, 104, 255, 0.2);
+}
+
+.social-card-desc {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.social-card-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.social-card-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 700;
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+  transition: var(--transition-fast);
+  pointer-events: none;
+}
+
+.social-category-card.fb-card:hover .social-card-cta-btn,
+.social-category-card.fb-card:focus-visible .social-card-cta-btn {
+  background: #1877f2;
+  color: #ffffff;
+  border-color: #1877f2;
+}
+
+.social-category-card.zalo-card:hover .social-card-cta-btn,
+.social-category-card.zalo-card:focus-visible .social-card-cta-btn {
+  background: #0068ff;
+  color: #ffffff;
+  border-color: #0068ff;
+}
+
+/* --- 12.2. MODAL POPUP DANH SÁCH NHÓM --- */
+.modal-box.groups-modal-box {
+  max-width: 540px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  text-align: left;
+}
+
+.groups-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 16px;
+  padding-right: 36px;
+}
+
+.groups-modal-icon-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-xs);
+}
+
+.groups-modal-icon-badge.fb-icon-bg {
+  background: linear-gradient(135deg, #1877f2, #0d65d9);
+  color: #ffffff;
+}
+
+.groups-modal-icon-badge.zalo-icon-bg {
+  background: #ffffff;
+  border: 1.5px solid rgba(0, 104, 255, 0.2);
+}
+
+.groups-modal-title {
+  font-family: var(--font-main);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.2px;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.groups-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding-right: 4px;
+  max-height: 58vh;
+}
+
+.groups-modal-list::-webkit-scrollbar {
+  display: block !important;
+  width: 5px !important;
+}
+
+.groups-modal-list::-webkit-scrollbar-track {
+  background: rgba(148, 163, 184, 0.1);
+  border-radius: 9999px;
+}
+
+.groups-modal-list::-webkit-scrollbar-thumb {
+  background: rgba(217, 119, 6, 0.35);
+  border-radius: 9999px;
+}
+
+.group-popup-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.group-popup-item:hover {
+  background: var(--bg-card);
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-sm);
+}
+
+.group-popup-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.group-popup-logo img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.group-popup-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.group-popup-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.group-popup-name {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.35;
+}
+
+.group-popup-members {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.group-popup-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.group-popup-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.group-popup-join-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-gold-btn);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.22);
+}
+
+.group-popup-join-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.38);
+}
+
 /* ==========================================================================
    13. TỐI ƯU HÓA GIAO DIỆN PC DESKTOP (>= 993px)
    ========================================================================== */
@@ -2059,6 +2409,54 @@ body {
   .float-scroll {
     width: 36px;
     height: 36px;
+  }
+
+  /* Social Category Cards & Groups Modal Mobile */
+  .social-category-card {
+    padding: 12px 12px;
+  }
+
+  .social-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+
+  .social-card-title {
+    font-size: 0.96rem;
+  }
+
+  .social-card-desc {
+    font-size: 0.78rem;
+  }
+
+  .social-card-cta-btn {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+
+  .modal-box.groups-modal-box {
+    padding: 18px 14px;
+    max-height: 90vh;
+  }
+
+  .group-popup-item {
+    padding: 10px 10px;
+    gap: 8px;
+  }
+
+  .group-popup-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .group-popup-name {
+    font-size: 0.88rem;
+  }
+
+  .group-popup-join-btn {
+    padding: 6px 9px;
+    font-size: 0.78rem;
   }
 }
 

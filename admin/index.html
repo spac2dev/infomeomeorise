@@ -896,12 +896,30 @@
               <div class="header-icon-box">🌐</div>
               <div>
                 <h2 class="card-title">Mạng Xã Hội (Nhóm Facebook &amp; Nhóm Zalo)</h2>
-                <div class="card-subtitle">Phân tách thành 2 mục chuyên biệt: Nhóm/Group Facebook và Nhóm/Box Zalo</div>
+                <div class="card-subtitle">Phân tách thành 2 mục chuyên biệt: Nhóm/Group Facebook và Nhóm/Box Zalo (Trên Profile hiển thị dạng 2 thẻ lớn, bấm vào sẽ mở Popup danh sách)</div>
               </div>
             </div>
           </div>
 
           <div class="card-body-content">
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 20px; font-size: 13px; color: #1e40af; display: flex; align-items: flex-start; gap: 10px;">
+              <span style="font-size: 18px; line-height: 1;">💡</span>
+              <div>
+                <strong>Cơ chế hiển thị trên trang Profile:</strong> Khối "Cộng đồng &amp; Mạng xã hội" hiển thị 2 thẻ lớn đại diện là <strong>Nhóm Facebook</strong> và <strong>Nhóm Zalo</strong>. Khi khách bấm vào thẻ sẽ mở Popup danh sách nhóm tương ứng để khách bấm "Tham gia" hoặc sao chép link.
+              </div>
+            </div>
+
+            <div class="form-grid-2" style="margin-bottom: 24px;">
+              <div class="form-group">
+                <label class="form-label">Mô tả phụ Thẻ Facebook (trên trang chủ Profile)</label>
+                <input type="text" id="fbCatDesc" class="form-control" placeholder="Cộng đồng ROK &amp; Chợ mua bán tài khoản">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Mô tả phụ Thẻ Zalo (trên trang chủ Profile)</label>
+                <input type="text" id="zlCatDesc" class="form-control" placeholder="Box Zalo VIP giao dịch &amp; hỗ trợ 24/7">
+              </div>
+            </div>
+
             <!-- MỤC 1: QUẢN LÝ NHÓM FACEBOOK -->
             <div style="margin-bottom: 30px;">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
@@ -1121,6 +1139,8 @@
         { id: "youtube", name: "YouTube", username: "MeoMeoRise", url: "https://www.youtube.com", icon: "youtube", active: true }
       ],
       socialGroups: {
+        facebookDesc: "Cộng đồng ROK & Chợ mua bán tài khoản",
+        zaloDesc: "Box Zalo VIP giao dịch & hỗ trợ 24/7",
         facebookGroups: [
           {
             id: "fb_group_main",
@@ -1263,6 +1283,10 @@
       }
 
       // 4. Social Groups (Nhóm Facebook & Nhóm Zalo)
+      if (p.socialGroups) {
+        if (document.getElementById("fbCatDesc")) document.getElementById("fbCatDesc").value = p.socialGroups.facebookDesc || "";
+        if (document.getElementById("zlCatDesc")) document.getElementById("zlCatDesc").value = p.socialGroups.zaloDesc || "";
+      }
       renderFbGroupsList();
       renderZlGroupsList();
 
@@ -1652,7 +1676,12 @@
         desc: card.querySelector(".zl-desc").value.trim()
       })).filter(g => g.name && g.url);
 
+      const fbCatDesc = document.getElementById("fbCatDesc") ? document.getElementById("fbCatDesc").value.trim() : "";
+      const zlCatDesc = document.getElementById("zlCatDesc") ? document.getElementById("zlCatDesc").value.trim() : "";
+
       currentProfile.socialGroups = {
+        facebookDesc: fbCatDesc || "Cộng đồng ROK & Chợ mua bán tài khoản",
+        zaloDesc: zlCatDesc || "Box Zalo VIP giao dịch & hỗ trợ 24/7",
         facebookGroups: fbList,
         zaloGroups: zlList
       };
