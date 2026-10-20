@@ -11,11 +11,11 @@ var mockProducts = [];
 // CẤU HÌNH THÔNG TIN PROFILE (Được quản lý tự động qua /profile/admin/index.html & Cloudflare Worker)
 var profileConfig = {
   "brand": {
-    "name": "Meo Meo Rise check",
+    "name": "Meo Meo Rise",
     "title": "Rise Of KingDoms",
     "slogan": "Trung Gian Giao Dịch & Dịch Vụ ROK Uy Tín",
-    "websiteName": "MEOMEORISE.com",
-    "websiteUrl": "https://meomeorise.com",
+    "websiteName": "MEOMEORISE.VN",
+    "websiteUrl": "https://meomeorise.vn",
     "avatar": "icon/icon.jpg",
     "logo": "icon/icon.png",
     "verified": true
@@ -42,7 +42,7 @@ var profileConfig = {
     "phoneDisplay": "0949.257.924",
     "zalo": "0949257924",
     "zaloUrl": "https://zalo.me/84949257924",
-    "email": "anh@spac2.com",
+    "email": "longnhat712@gmail.com",
     "address": "Biên Hòa, Đồng Nai (Toàn Quốc)",
     "website": "https://meomeorise.vn"
   },
@@ -88,17 +88,19 @@ var profileConfig = {
     }
   ],
   "socialGroups": {
+    "facebookDesc": "Cộng đồng ROK & Chợ mua bán tài khoản",
+    "zaloDesc": "Box Zalo VIP giao dịch & hỗ trợ 24/7",
     "facebookGroups": [
       {
-        "id": "fb_8pjd4",
-        "name": "Spac2 com",
+        "id": "fb_lrdtv",
+        "name": "Cộng Đồng Rise Of Kingdoms Việt Nam",
         "members": "55.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
         "icon": "https://www.google.com/s2/favicons?domain=facebook.com&sz=128",
         "desc": "Giao lưu, chia sẻ kinh nghiệm chiến thuật và hỗ trợ tân thủ ROK"
       },
       {
-        "id": "fb_fk2o8",
+        "id": "fb_q3hpe",
         "name": "Chợ Mua Bán Acc ROK Uy Tín (Admin Meo Meo)",
         "members": "28.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
@@ -108,18 +110,18 @@ var profileConfig = {
     ],
     "zaloGroups": [
       {
-        "id": "zl_97oen",
+        "id": "zl_pft30",
         "name": "Box Zalo Giao Dịch ROK VIP 1",
         "members": "1.000 thành viên (Đầy)",
-        "url": "https://zalo.me/g/xxxxxx",
+        "url": "https://zalo.me/84949257924",
         "icon": "https://www.google.com/s2/favicons?domain=zalo.me&sz=128",
         "desc": "Cập nhật tài khoản xả lỗ, giá tốt hằng ngày"
       },
       {
-        "id": "zl_kcvoe",
+        "id": "zl_iygee",
         "name": "Box Zalo Giao Dịch & Hỗ Trợ ROK VIP 2",
         "members": "850 thành viên",
-        "url": "https://zalo.me/g/yyyyyy",
+        "url": "https://zalo.me/84949257924",
         "icon": "https://www.google.com/s2/favicons?domain=zalo.me&sz=128",
         "desc": "Hỗ trợ định giá acc, trung gian giao dịch bảo hiểm 100%"
       }
@@ -131,7 +133,7 @@ var profileConfig = {
       "bankName": "Ngân hàng Quân Đội (MB Bank)",
       "bankCode": "MB",
       "accountNumber": "0949257924",
-      "accountHolder": "NGUYEN LONG NHAT",
+      "accountHolder": "DO LONG NHAT",
       "qrUrl": "https://api.vietqr.io/image/970422-0949257924-compact.jpg?accountName=NGUYEN%20LONG%20NHAT",
       "logoType": "mb"
     },
@@ -143,6 +145,15 @@ var profileConfig = {
       "accountHolder": "NGUYEN LONG NHAT",
       "qrUrl": "https://api.vietqr.io/image/970422-0949257924-compact.jpg?accountName=NGUYEN%20LONG%20NHAT",
       "logoType": "mbv"
+    },
+    {
+      "id": "vib_7924",
+      "bankName": "Ngân Hàng Quốc Tế (VIB Bank)",
+      "bankCode": "VIB",
+      "accountNumber": "0949257924",
+      "accountHolder": "DO LONG NHAT",
+      "qrUrl": "https://api.vietqr.io/image/VIB-0949257924-compact.jpg?accountName=DO%20LONG%20NHAT",
+      "logoType": "bank"
     }
   ],
   "systemChannels": {
