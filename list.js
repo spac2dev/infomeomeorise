@@ -92,7 +92,7 @@ var profileConfig = {
     "zaloDesc": "Box Zalo VIP giao dịch & hỗ trợ 24/7",
     "facebookGroups": [
       {
-        "id": "fb_wh3w5",
+        "id": "fb_iqxkw",
         "name": "Cộng Đồng Rise Of Kingdoms Việt Nam",
         "members": "55.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
@@ -100,7 +100,7 @@ var profileConfig = {
         "desc": "Giao lưu, chia sẻ kinh nghiệm chiến thuật và hỗ trợ tân thủ ROK"
       },
       {
-        "id": "fb_u7hs9",
+        "id": "fb_3zcve",
         "name": "Chợ Mua Bán Acc ROK Uy Tín (Admin Meo Meo)",
         "members": "28.000+ thành viên",
         "url": "https://www.facebook.com/groups/MeoMeoRise",
@@ -110,7 +110,7 @@ var profileConfig = {
     ],
     "zaloGroups": [
       {
-        "id": "zl_lazxa",
+        "id": "zl_xtn9h",
         "name": "Box Zalo Giao Dịch ROK VIP 1",
         "members": "1.000 thành viên (Đầy)",
         "url": "https://zalo.me/84949257924",
@@ -118,7 +118,7 @@ var profileConfig = {
         "desc": "Cập nhật tài khoản xả lỗ, giá tốt hằng ngày"
       },
       {
-        "id": "zl_ywwak",
+        "id": "zl_nwgd8",
         "name": "Box Zalo Giao Dịch & Hỗ Trợ ROK VIP 2",
         "members": "850 thành viên",
         "url": "https://zalo.me/84949257924",
@@ -147,10 +147,10 @@ var profileConfig = {
       "logoType": "mbv"
     },
     {
-      "id": "vib_7924",
+      "id": "vib_3397",
       "bankName": "Ngân Hàng Quốc Tế (VIB Bank)",
       "bankCode": "VIB",
-      "accountNumber": "0949257924",
+      "accountNumber": "014473397",
       "accountHolder": "DO LONG NHAT",
       "qrUrl": "https://img.vietqr.io/image/VIB-014473397-vietqr_pro.svg",
       "logoType": "bank"
