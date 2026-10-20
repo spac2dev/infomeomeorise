@@ -1083,8 +1083,8 @@
     <span id="toastMessage">Thông báo</span>
   </div>
 
-  <!-- Nạp file list.js từ thư mục profile -->
-  <script src="../list.js"></script>
+  <!-- Nạp file list.js từ thư mục profile (thêm ?v=timestamp để luôn lấy bản mới nhất, tránh cache GitHub Pages) -->
+  <script>document.write('<script src="../list.js?v=' + Date.now() + '"><\/script>');</script>
 
   <script>
     // Cấu trúc profileConfig mặc định
@@ -1785,7 +1785,8 @@ if (typeof module !== "undefined" && module.exports) {
         const headers = {};
         if (secret) headers["X-Admin-Key"] = secret;
 
-        const res = await fetch(workerUrl, { method: "GET", headers });
+        const testUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}owner=spac2dev&repo=infomeomeorise&path=list.js`;
+        const res = await fetch(testUrl, { method: "GET", headers });
         const text = await res.text();
         let data;
         try {
@@ -1840,6 +1841,8 @@ if (typeof module !== "undefined" && module.exports) {
         const payload = {
           content: fileContent,
           filePath: "list.js",
+          repoOwner: "spac2dev",
+          repoName: "infomeomeorise",
           message: `Admin CMS update profile config (${currentProfile.brand?.name || 'Meo Meo Rise'})`
         };
 

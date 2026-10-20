@@ -646,8 +646,8 @@
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div class="toast-notice" id="toastNotice" role="status" aria-live="polite"></div>
 
-  <!-- Nạp dữ liệu cấu hình từ profile/list.js -->
-  <script src="list.js"></script>
+  <!-- Nạp dữ liệu cấu hình từ profile/list.js (thêm ?v=timestamp để tránh cache 10 phút của GitHub Pages) -->
+  <script>document.write('<script src="list.js?v=' + Date.now() + '"><\/script>');</script>
 
   <!-- SCRIPT LOGIC: js/index.js -->
   <script src="js/index.js"></script>
