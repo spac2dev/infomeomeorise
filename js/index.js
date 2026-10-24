@@ -259,9 +259,15 @@ function initQrModal() {
       e.preventDefault();
       const qrUrl = btn.getAttribute('data-qr-img');
       const bankName = btn.getAttribute('data-bank-name') || 'Mã QR Ngân Hàng';
+      const holderName = btn.getAttribute('data-holder-name') || 'DO LONG NHAT';
 
       if (modalBankTitle) modalBankTitle.textContent = bankName;
       if (modalQrImg && qrUrl) modalQrImg.src = qrUrl;
+
+      const modalQrHolder = document.getElementById('modalQrHolder') || document.querySelector('#qrModal [style*="font-weight:700"]');
+      if (modalQrHolder) {
+        modalQrHolder.textContent = `Chủ tài khoản: ${holderName}`;
+      }
 
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -499,15 +505,18 @@ function renderProfileFromConfig() {
 
   // 1. Tiêu đề trang & Meta Title
   if (cfg.brand) {
-    if (cfg.brand.title) {
-      document.title = `${cfg.brand.title} - ${cfg.brand.slogan || "Trung Gian Giao Dịch & Dịch Vụ ROK Uy Tín"}`;
+    if (cfg.brand.pageTitle) {
+      document.title = cfg.brand.pageTitle;
+    } else if (cfg.brand.title) {
+      document.title = `${cfg.brand.title} - ${cfg.brand.slogan || "Nền tảng giao dịch Rise of Kingdoms chính thức"}`;
     }
 
     // Logo & Tên thương hiệu trên Header
     const brandTitleEl = document.querySelector('.brand-title');
-    if (brandTitleEl && cfg.brand.title) {
+    const headerDisplay = cfg.brand.headerTitle || cfg.brand.title || "Rise Of KingDoms";
+    if (brandTitleEl) {
       brandTitleEl.innerHTML = `
-        ${escapeHtml(cfg.brand.title)}
+        ${escapeHtml(headerDisplay)}
         ${cfg.brand.verified ? `
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:var(--gold-500);" aria-hidden="true">
             <path d="M12 2l2.4 2.9 3.7-.4 1.3 3.5 3.5 1.4-.4 3.7 2.4 2.9-2.4 2.9.4 3.7-3.5 1.4-1.3 3.5-3.7-.4L12 22l-2.4-2.9-3.7.4-1.3-3.5-3.5-1.4.4-3.7-2.4-2.9 2.4-2.9-.4-3.7 3.5-1.4 1.3-3.5 3.7.4L12 2z"/>
@@ -710,7 +719,7 @@ function renderProfileFromConfig() {
         return `
           <div class="transfer-item-row">
             <div class="transfer-bank-logo">
-              ${getBankLogoSvg(b.logoType || b.bankCode, b.bankName)}
+              ${b.logoImg ? `<img src="${escapeHtml(b.logoImg)}" alt="${escapeHtml(b.bankName || '')}" class="bank-logo-img" onerror="this.src='icon/icon.png'">` : getBankLogoSvg(b.logoType || b.bankCode, b.bankName)}
             </div>
 
             <div class="transfer-item-content">
@@ -724,6 +733,7 @@ function renderProfileFromConfig() {
                       class="transfer-action-btn qr-btn" 
                       data-qr-open 
                       data-bank-name="${escapeHtml(b.bankName || '')} - ${escapeHtml(b.accountHolder || '')}" 
+                      data-holder-name="${escapeHtml(b.accountHolder || '')}"
                       data-qr-img="${escapeHtml(qrUrl)}"
                       title="Xem Mã QR Chuyển Khoản"
                       aria-label="Mở mã QR ngân hàng ${escapeHtml(b.bankName || '')}">
@@ -947,6 +957,22 @@ function getSocialSvgIcon(id) {
 
 function getBankLogoSvg(logoType, bankName) {
   const t = (logoType || bankName || '').toLowerCase();
+  
+  // 1. VÍ ĐIỆN TỬ MOMO
+  if (t.includes('momo')) {
+    return `<img src="icon/momo.webp" alt="MoMo" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
+  }
+
+  // 2. NGÂN HÀNG QUỐC TẾ VIB
+  if (t.includes('vib')) {
+    return `<img src="icon/vib.webp" alt="VIB" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
+  }
+
+  // 3. NGÂN HÀNG QUÂN ĐỘI MB BANK
+  if (t.includes('mb') || t.includes('quân đội')) {
+    return `<img src="icon/mb.jpg" alt="MB Bank" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
+  }
+
   if (t.includes('mbv')) {
     return `
       <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -956,15 +982,7 @@ function getBankLogoSvg(logoType, bankName) {
       </svg>
     `;
   }
-  if (t.includes('mb') || t.includes('quân đội')) {
-    return `
-      <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100" height="100" rx="20" fill="#002d72"/>
-        <path d="M50 18L54.5 32H69L57.5 40.5L61.8 54.5L50 46L38.2 54.5L42.5 40.5L31 32H45.5L50 18Z" fill="#e30613"/>
-        <path d="M26 68L36 68L44 80L52 68L62 68L47 88L41 88L26 68Z" fill="#ffffff"/>
-      </svg>
-    `;
-  }
+
   if (t.includes('vcb') || t.includes('vietcombank')) {
     return `
       <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -973,6 +991,7 @@ function getBankLogoSvg(logoType, bankName) {
       </svg>
     `;
   }
+
   if (t.includes('techcombank') || t.includes('tcb')) {
     return `
       <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -981,6 +1000,7 @@ function getBankLogoSvg(logoType, bankName) {
       </svg>
     `;
   }
+
   // Mặc định: Bank icon thẻ thanh toán màu xanh biển
   return `
     <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">

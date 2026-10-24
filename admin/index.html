@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <!-- Chặn công cụ tìm kiếm lập chỉ mục (Noindex SEO) cho trang Admin -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow">
+
   <title>Profile Admin CMS - Quản Lý Thông Tin Đại Diện & Ngân Hàng</title>
-  <link rel="icon" href="../../assets/rok_avatar.jpg" type="image/jpeg">
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="icon" href="../favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
   <style>
     :root {
       --primary: #d97706;
@@ -1109,8 +1115,10 @@
     let currentProfile = {
       brand: {
         name: "Meo Meo Rise",
-        title: "Rise Of KingDoms",
-        slogan: "Trung Gian Giao Dịch & Dịch Vụ ROK Uy Tín",
+        title: "Info Meo Meo Rise",
+        headerTitle: "Rise Of KingDoms",
+        slogan: "Nền tảng giao dịch Rise of Kingdoms chính thức",
+        pageTitle: "Info Meo Meo Rise - Nền tảng giao dịch Rise of Kingdoms chính thức",
         websiteName: "MEOMEORISE.VN",
         websiteUrl: "https://meomeorise.vn",
         avatar: "icon/icon.jpg",
@@ -1183,19 +1191,31 @@
           id: "mbbank",
           bankName: "Ngân hàng Quân Đội (MB Bank)",
           bankCode: "MB",
-          accountNumber: "0949257924",
-          accountHolder: "NGUYEN LONG NHAT",
-          qrUrl: "https://api.vietqr.io/image/970422-0949257924-compact.jpg?accountName=NGUYEN%20LONG%20NHAT",
-          logoType: "mb"
+          accountNumber: "34568888668888",
+          accountHolder: "DO LONG NHAT",
+          qrUrl: "https://api.vietqr.io/image/970422-34568888668888-compact.jpg?accountName=DO%20LONG%20NHAT",
+          logoType: "mb",
+          logoImg: "icon/mb.jpg"
         },
         {
-          id: "mbv",
-          bankName: "Ngân hàng MBV",
-          bankCode: "MBV",
+          id: "vib",
+          bankName: "Ngân hàng Quốc Tế VIB",
+          bankCode: "VIB",
+          accountNumber: "014473397",
+          accountHolder: "ĐỖ LONG NHẬT",
+          qrUrl: "https://api.vietqr.io/image/970441-014473397-compact.jpg?accountName=DO%20LONG%20NHAT",
+          logoType: "vib",
+          logoImg: "icon/vib.webp"
+        },
+        {
+          id: "momo",
+          bankName: "Ví Điện Tử MoMo",
+          bankCode: "MOMO",
           accountNumber: "0949257924",
-          accountHolder: "NGUYEN LONG NHAT",
-          qrUrl: "https://api.vietqr.io/image/970422-0949257924-compact.jpg?accountName=NGUYEN%20LONG%20NHAT",
-          logoType: "mbv"
+          accountHolder: "ĐỖ LONG NHẬT",
+          qrUrl: "https://api.vietqr.io/image/971005-0949257924-compact.jpg?accountName=DO%20LONG%20NHAT",
+          logoType: "momo",
+          logoImg: "icon/momo.webp"
         }
       ],
       systemChannels: {
