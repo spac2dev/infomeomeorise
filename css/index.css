@@ -1646,24 +1646,174 @@ body {
 }
 
 .qr-image-display {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 230px;
+  max-width: 100%;
   margin: 16px auto;
   border-radius: var(--radius-md);
   border: 2px solid var(--border-gold);
   overflow: hidden;
-  background: #fff;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .qr-image-display img {
   max-width: 100%;
+  max-height: 100%;
+  width: auto;
   height: auto;
+  object-fit: contain;
   display: block;
   border-radius: var(--radius-sm);
+}
+
+/* --- CHẾ ĐỘ QUÉT MOMO & NÂNG CẤP QR MODAL --- */
+.momo-qr-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--bg-secondary);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  margin: 0 auto 12px;
+  max-width: 320px;
+  border: 1px solid var(--border-light);
+}
+
+.momo-switch-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+
+.momo-switch-btn:hover {
+  color: var(--text-main);
+}
+
+.momo-switch-btn.active {
+  background: linear-gradient(135deg, #a50064, #d82d8b);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(165, 0, 100, 0.35);
+}
+
+.momo-switch-btn:not(.active):hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .momo-switch-btn:not(.active):hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.modal-qr-canvas-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modalQrCanvasInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modalQrCanvasInner canvas,
+#modalQrCanvasInner img {
+  border-radius: var(--radius-sm);
+  display: block;
+  max-width: 176px;
+  max-height: 176px;
+}
+
+.momo-qr-center-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  pointer-events: none;
+}
+
+.momo-qr-center-badge img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.momo-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  width: 100%;
+}
+
+.btn-momo-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.22s ease;
+  border: 1px solid transparent;
+}
+
+.btn-momo-primary {
+  background: linear-gradient(135deg, #a50064, #d82d8b);
+  color: #ffffff !important;
+  box-shadow: 0 3px 12px rgba(165, 0, 100, 0.3);
+}
+
+.btn-momo-primary:hover {
+  background: linear-gradient(135deg, #880052, #bf1d75);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(165, 0, 100, 0.45);
+}
+
+.btn-momo-copy {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  border-color: var(--border-light);
+}
+
+.btn-momo-copy:hover {
+  background: var(--gold-soft);
+  border-color: var(--gold-400);
+  color: var(--gold-700);
 }
 
 /* --- 12.1. THẺ LỚN MẠNG XÃ HỘI (NHÓM FACEBOOK & NHÓM ZALO) --- */

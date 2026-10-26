@@ -534,9 +534,12 @@
                 <button type="button" 
                         class="transfer-action-btn qr-btn" 
                         data-qr-open 
-                        data-bank-name="MoMo - DO LONG NHAT" 
+                        data-bank-type="momo"
+                        data-bank-name="Ví Điện Tử MoMo" 
                         data-holder-name="ĐỖ LONG NHẬT"
-                        data-qr-img="https://api.vietqr.io/image/971005-0949257924-compact.jpg?accountName=DO%20LONG%20NHAT" 
+                        data-account-num="0949257924"
+                        data-momo-url="https://nhantien.momo.vn/0949257924"
+                        data-qr-img="media/momo.png" 
                         title="Xem Mã QR Chuyển Khoản"
                         aria-label="Mở mã QR MoMo">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -699,7 +702,7 @@
     </button>
   </aside>
 
-  <!-- MODAL XEM MÃ QR THANH TOÁN -->
+  <!-- MODAL XEM MÃ QR THANH TOÁN (HỖ TRỢ CẢ VIETQR & RENDER MOMO CHUẨN) -->
   <div class="modal-overlay" id="qrModal" role="dialog" aria-modal="true" aria-labelledby="modalBankTitle">
     <div class="modal-box">
       <button class="modal-close-btn" id="modalCloseBtn" aria-label="Đóng popup">
@@ -709,15 +712,47 @@
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
-      <h3 id="modalBankTitle" style="font-family:var(--font-heading); font-size:1.2rem; color:var(--text-main); margin-bottom:6px;">Mã QR Chuyển Khoản</h3>
-      <p style="font-size:0.86rem; color:var(--text-muted);">Quét mã QR bằng ứng dụng ngân hàng để chuyển khoản an toàn</p>
+      <h3 id="modalBankTitle" style="font-family:var(--font-heading); font-size:1.2rem; color:var(--text-main); margin-bottom:4px;">Mã QR Chuyển Khoản</h3>
+      <p id="modalBankSub" style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Quét mã QR bằng ứng dụng ngân hàng hoặc MoMo</p>
       
-      <div class="qr-image-display">
-        <img id="modalQrImg" src="" alt="Mã QR Chuyển Khoản Ngân Hàng">
+      <!-- Chuyển đổi chế độ quét (Chỉ hiển thị khi mở MoMo) -->
+      <div class="momo-qr-switch" id="momoQrSwitch" style="display:none;">
+        <button type="button" class="momo-switch-btn active" id="btnModeMomo" data-mode="momo">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Quét App MoMo
+        </button>
+        <button type="button" class="momo-switch-btn" id="btnModeVietQr" data-mode="vietqr">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
+          Quét App Ngân Hàng
+        </button>
       </div>
 
-      <div id="modalQrHolder" style="font-size:0.88rem; color:var(--text-main); font-weight:700;">
+      <!-- Khung hiển thị mã QR -->
+      <div class="qr-image-display" id="modalQrBox">
+        <img id="modalQrImg" src="" alt="Mã QR Chuyển Khoản">
+      </div>
+
+      <div id="modalQrHolder" style="font-size:0.92rem; color:var(--text-main); font-weight:700;">
         Chủ tài khoản: DO LONG NHAT
+      </div>
+
+      <div id="modalQrAccNum" style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">
+        STK: 0949257924
+      </div>
+
+      <!-- Nút hành động nhanh MoMo: Mở app MoMo và Copy số -->
+      <div class="momo-modal-actions" id="momoModalActions" style="display:none;">
+        <a href="https://nhantien.momo.vn/0949257924" id="momoDirectPayBtn" target="_blank" rel="noopener noreferrer" class="btn-momo-action btn-momo-primary">
+          <img src="icon/momo.webp" alt="MoMo" style="width:18px;height:18px;border-radius:4px;object-fit:cover;">
+          <span>Mở Ứng Dụng MoMo Chuyển Ngay</span>
+        </a>
+        <button type="button" class="btn-momo-action btn-momo-copy" id="momoModalCopyBtn" data-copy="0949257924" data-label="Số MoMo">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>Sao Chép Số MoMo</span>
+        </button>
       </div>
     </div>
   </div>
@@ -851,7 +886,8 @@
         bankCode: "MOMO",
         accountNumber: "0949257924",
         accountHolder: "ĐỖ LONG NHẬT",
-        qrUrl: "https://api.vietqr.io/image/971005-0949257924-compact.jpg?accountName=DO%20LONG%20NHAT",
+        qrUrl: "media/momo.png",
+        momoUrl: "https://nhantien.momo.vn/0949257924",
         logoType: "momo",
         logoImg: "icon/momo.webp"
       }
@@ -877,6 +913,9 @@
     window.profileConfig = profileConfig;
   }
   </script>
+
+  <!-- THƯ VIỆN QRCODE RENDER NỘI BỘ SIÊU NHẸ -->
+  <script src="js/qrcode.min.js"></script>
 
   <!-- SCRIPT LOGIC: js/index.js -->
   <script src="js/index.js"></script>

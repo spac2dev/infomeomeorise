@@ -244,35 +244,143 @@ function initCopyActions() {
 }
 
 /* ===================================================
-   4. MODAL XEM MÃ QR THANH TOÁN
+   4. MODAL XEM MÃ QR THANH TOÁN (HỖ TRỢ RENDER MOMO & VIETQR)
    =================================================== */
 function initQrModal() {
   const modal = document.getElementById('qrModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
   const modalBankTitle = document.getElementById('modalBankTitle');
+  const modalBankSub = document.getElementById('modalBankSub');
   const modalQrImg = document.getElementById('modalQrImg');
+  const modalQrCanvasWrap = document.getElementById('modalQrCanvasWrap');
+  const modalQrCanvasInner = document.getElementById('modalQrCanvasInner');
+  const modalQrHolder = document.getElementById('modalQrHolder');
+  const modalQrAccNum = document.getElementById('modalQrAccNum');
+  const momoQrSwitch = document.getElementById('momoQrSwitch');
+  const btnModeMomo = document.getElementById('btnModeMomo');
+  const btnModeVietQr = document.getElementById('btnModeVietQr');
+  const momoModalActions = document.getElementById('momoModalActions');
+  const momoDirectPayBtn = document.getElementById('momoDirectPayBtn');
+  const momoModalCopyBtn = document.getElementById('momoModalCopyBtn');
 
   if (!modal) return;
 
-  document.querySelectorAll('[data-qr-open]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const qrUrl = btn.getAttribute('data-qr-img');
-      const bankName = btn.getAttribute('data-bank-name') || 'Mã QR Ngân Hàng';
-      const holderName = btn.getAttribute('data-holder-name') || 'DO LONG NHAT';
+  let currentQrData = {};
 
-      if (modalBankTitle) modalBankTitle.textContent = bankName;
-      if (modalQrImg && qrUrl) modalQrImg.src = qrUrl;
+  function setupQrMode(mode) {
+    if (mode === 'momo') {
+      if (btnModeMomo) btnModeMomo.classList.add('active');
+      if (btnModeVietQr) btnModeVietQr.classList.remove('active');
+      if (modalBankSub) modalBankSub.textContent = 'Mở ứng dụng MoMo quét mã để chuyển tiền tức thì (Miễn phí)';
+      if (modalQrImg) modalQrImg.style.display = 'none';
+      if (modalQrCanvasWrap) modalQrCanvasWrap.style.display = 'flex';
 
-      const modalQrHolder = document.getElementById('modalQrHolder') || document.querySelector('#qrModal [style*="font-weight:700"]');
-      if (modalQrHolder) {
-        modalQrHolder.textContent = `Chủ tài khoản: ${holderName}`;
+      // Render mã QR MoMo chuẩn bằng QRCode JS
+      if (modalQrCanvasInner) {
+        modalQrCanvasInner.innerHTML = '';
+        const targetUrl = currentQrData.momoUrl || `https://nhantien.momo.vn/${currentQrData.accountNum || '0949257924'}`;
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(modalQrCanvasInner, {
+              text: targetUrl,
+              width: 176,
+              height: 176,
+              colorDark: '#1e1b4b',
+              colorLight: '#ffffff',
+              correctLevel: QRCode.CorrectLevel.H
+            });
+          } catch (err) {
+            fallbackQrImage(targetUrl);
+          }
+        } else {
+          fallbackQrImage(targetUrl);
+        }
       }
+    } else {
+      // Chế độ VietQR Ngân Hàng (BIN MoMo 971025)
+      if (btnModeVietQr) btnModeVietQr.classList.add('active');
+      if (btnModeMomo) btnModeMomo.classList.remove('active');
+      if (modalBankSub) modalBankSub.textContent = 'Dùng ứng dụng mọi ngân hàng (MB, VCB, Techcombank,...) để quét';
+      if (modalQrCanvasWrap) modalQrCanvasWrap.style.display = 'none';
+      if (modalQrImg) {
+        modalQrImg.style.display = 'block';
+        modalQrImg.src = currentQrData.qrImg || `https://img.vietqr.io/image/971025-${currentQrData.accountNum || '0949257924'}-compact.jpg?accountName=${encodeURIComponent(currentQrData.holderName || '')}`;
+      }
+    }
+  }
 
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+  function fallbackQrImage(targetUrl) {
+    if (modalQrImg) {
+      modalQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(targetUrl)}`;
+      modalQrImg.style.display = 'block';
+      if (modalQrCanvasWrap) modalQrCanvasWrap.style.display = 'none';
+    }
+  }
+
+  if (btnModeMomo) {
+    btnModeMomo.addEventListener('click', () => setupQrMode('momo'));
+  }
+  if (btnModeVietQr) {
+    btnModeVietQr.addEventListener('click', () => setupQrMode('vietqr'));
+  }
+
+  // Gắn sự kiện click mở QR
+  function bindQrButtons() {
+    document.querySelectorAll('[data-qr-open]').forEach(btn => {
+      if (btn._hasQrInit) return;
+      btn._hasQrInit = true;
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const bankType = btn.getAttribute('data-bank-type') || '';
+        const qrUrl = btn.getAttribute('data-qr-img') || '';
+        const momoUrl = btn.getAttribute('data-momo-url') || 'https://nhantien.momo.vn/0949257924';
+        const bankName = btn.getAttribute('data-bank-name') || 'Mã QR Ngân Hàng';
+        const holderName = btn.getAttribute('data-holder-name') || 'DO LONG NHAT';
+        const accountNum = btn.getAttribute('data-account-num') || '';
+
+        const isMomo = bankType === 'momo' || 
+                       bankName.toLowerCase().includes('momo') || 
+                       qrUrl.includes('momo') ||
+                       qrUrl.includes('971025');
+
+        const finalQrImg = isMomo ? (qrUrl || 'media/momo.png') : qrUrl;
+
+        if (modalBankTitle) modalBankTitle.textContent = bankName;
+        if (modalQrHolder) modalQrHolder.textContent = `Chủ tài khoản: ${holderName}`;
+        if (modalQrAccNum) {
+          modalQrAccNum.textContent = `${isMomo ? 'Số MoMo' : 'Số tài khoản'}: ${accountNum || '0949257924'}`;
+        }
+
+        if (modalQrImg) {
+          modalQrImg.style.display = 'block';
+          modalQrImg.src = finalQrImg;
+          modalQrImg.alt = `Mã QR ${bankName}`;
+        }
+
+        if (isMomo) {
+          if (momoQrSwitch) momoQrSwitch.style.display = 'none';
+          if (modalBankSub) modalBankSub.textContent = 'Quét mã QR bằng ứng dụng MoMo hoặc bất kỳ ngân hàng nào';
+          if (momoModalActions) momoModalActions.style.display = 'flex';
+          if (momoDirectPayBtn) momoDirectPayBtn.href = momoUrl;
+          if (momoModalCopyBtn) {
+            momoModalCopyBtn.setAttribute('data-copy', accountNum || '0949257924');
+            momoModalCopyBtn.setAttribute('data-label', 'Số MoMo');
+          }
+        } else {
+          if (momoQrSwitch) momoQrSwitch.style.display = 'none';
+          if (momoModalActions) momoModalActions.style.display = 'none';
+          if (modalBankSub) modalBankSub.textContent = 'Quét mã QR bằng ứng dụng ngân hàng để chuyển khoản an toàn';
+        }
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
     });
-  });
+  }
+
+  bindQrButtons();
+  window.bindQrButtons = bindQrButtons;
 
   const closeModal = () => {
     modal.classList.remove('active');
@@ -715,7 +823,12 @@ function renderProfileFromConfig() {
     const transferListEl = document.getElementById('bankingAccountsContainer') || document.querySelector('#tab-banking .transfer-accounts-list');
     if (transferListEl) {
       transferListEl.innerHTML = cfg.banks.map(b => {
-        const qrUrl = b.qrUrl || `https://api.vietqr.io/image/${b.bankCode || '970422'}-${b.accountNumber}-compact.jpg?accountName=${encodeURIComponent(b.accountHolder || '')}`;
+        const isMomo = (b.id === 'momo' || 
+                        (b.bankCode && b.bankCode.toLowerCase() === 'momo') || 
+                        (b.bankName && b.bankName.toLowerCase().includes('momo')));
+        const qrUrl = isMomo ? (b.qrUrl || 'media/momo.png') : (b.qrUrl || `https://img.vietqr.io/image/${b.bankCode || '970422'}-${b.accountNumber}-compact.jpg?accountName=${encodeURIComponent(b.accountHolder || '')}`);
+        const momoUrl = b.momoUrl || (isMomo ? `https://nhantien.momo.vn/${b.accountNumber || '0949257924'}` : '');
+
         return `
           <div class="transfer-item-row">
             <div class="transfer-bank-logo">
@@ -732,11 +845,14 @@ function renderProfileFromConfig() {
               <button type="button" 
                       class="transfer-action-btn qr-btn" 
                       data-qr-open 
-                      data-bank-name="${escapeHtml(b.bankName || '')} - ${escapeHtml(b.accountHolder || '')}" 
+                      data-bank-type="${isMomo ? 'momo' : ''}"
+                      data-bank-name="${escapeHtml(b.bankName || '')}" 
                       data-holder-name="${escapeHtml(b.accountHolder || '')}"
+                      data-account-num="${escapeHtml(b.accountNumber || '')}"
+                      data-momo-url="${escapeHtml(momoUrl)}"
                       data-qr-img="${escapeHtml(qrUrl)}"
                       title="Xem Mã QR Chuyển Khoản"
-                      aria-label="Mở mã QR ngân hàng ${escapeHtml(b.bankName || '')}">
+                      aria-label="Mở mã QR ${escapeHtml(b.bankName || '')}">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="2.5" y="2.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
                   <rect x="4.75" y="4.75" width="2.5" height="2.5" rx="0.5" fill="currentColor"/>
@@ -757,7 +873,7 @@ function renderProfileFromConfig() {
               <button type="button" 
                       class="transfer-action-btn" 
                       data-copy="${escapeHtml(b.accountNumber || '')}" 
-                      data-label="STK ${escapeHtml(b.bankCode || b.bankName || '')}" 
+                      data-label="${isMomo ? 'Số MoMo' : 'STK ' + escapeHtml(b.bankCode || b.bankName || '')}" 
                       title="Sao chép số tài khoản">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -768,6 +884,10 @@ function renderProfileFromConfig() {
           </div>
         `;
       }).join('');
+
+      // Sau khi render lại danh sách, gắn lại sự kiện QR và Copy
+      if (typeof window.bindQrButtons === 'function') window.bindQrButtons();
+      if (typeof initCopyActions === 'function') initCopyActions();
     }
   }
 
