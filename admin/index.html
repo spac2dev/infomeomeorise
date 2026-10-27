@@ -629,6 +629,258 @@
       to { opacity: 1; transform: scale(1); }
     }
 
+    /* ==========================================================================
+       CSS CHO POPUP ĐĂNG NHẬP & ĐỒNG BỘ DỮ LIỆU TỪ WEB (AUTH & SYNC MODAL)
+       ========================================================================== */
+    .auth-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-modal-backdrop.show {
+      display: flex;
+    }
+
+    .auth-modal-card {
+      background: #ffffff;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(217, 119, 6, 0.15);
+      overflow: hidden;
+      animation: modalFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .auth-modal-header {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%);
+      padding: 30px 28px 24px 28px;
+      text-align: center;
+      border-bottom: 1px solid #fcd34d;
+      position: relative;
+    }
+
+    .auth-icon-wrap {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 14px auto;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #ffffff;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(217, 119, 6, 0.35);
+    }
+
+    .auth-modal-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #78350f;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .auth-modal-sub {
+      font-size: 13px;
+      color: #92400e;
+      line-height: 1.55;
+    }
+
+    .auth-modal-body {
+      padding: 26px 28px 30px 28px;
+    }
+
+    .auth-form-group {
+      margin-bottom: 18px;
+    }
+
+    .auth-form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 7px;
+    }
+
+    .auth-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .auth-input-icon {
+      position: absolute;
+      left: 14px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .auth-input-text {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      border-radius: 12px;
+      border: 1.5px solid #e2e8f0;
+      font-size: 13.5px;
+      background: #f8fafc;
+      color: #0f172a;
+      transition: all 0.2s ease;
+    }
+    .auth-input-text:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.15);
+    }
+
+    .btn-toggle-eye {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+    }
+    .btn-toggle-eye:hover {
+      color: var(--primary);
+    }
+
+    .auth-field-hint {
+      display: block;
+      font-size: 11.5px;
+      color: #64748b;
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    .auth-remember-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 14px 0 20px 0;
+    }
+
+    .auth-checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .auth-status-box {
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      animation: fadeIn 0.2s ease;
+    }
+    .auth-status-box.info {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+    }
+    .auth-status-box.loading {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+    .auth-status-box.success {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+    }
+    .auth-status-box.error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+
+    .auth-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-auth-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #ffffff;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-auth-submit:hover {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(217, 119, 6, 0.45);
+    }
+    .btn-auth-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-auth-skip {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px;
+      text-align: center;
+      transition: color 0.15s;
+    }
+    .btn-auth-skip:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    /* Icon xoay animation */
+    .spin-icon {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
     /* Responsive */
     @media (max-width: 900px) {
       .cms-layout-grid {
@@ -661,6 +913,12 @@
       </div>
 
       <div class="nav-actions">
+        <!-- Đồng bộ từ Website -->
+        <button class="btn btn-secondary" onclick="syncDataFromWebOrWorker(true)" title="Đồng bộ kéo dữ liệu mới nhất từ file website về trang quản trị" style="color: #0284c7; border-color: #bae6fd; background: #f0f9ff;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          <span>Đồng bộ từ Web</span>
+        </button>
+
         <!-- View Profile -->
         <a href="../index.html" target="_blank" class="btn btn-secondary" title="Xem trang Profile">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -689,6 +947,12 @@
         <button class="btn btn-primary" id="btnPublishGithub" onclick="publishProfileToGithub()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
           <span id="publishText">LƯU LÊN GITHUB</span>
+        </button>
+
+        <!-- Đăng nhập lại / Đổi tài khoản -->
+        <button class="btn btn-secondary" onclick="showAuthModal()" title="Xác thực hoặc đổi Worker/Secret Key" style="padding: 8px 12px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Xác thực lại</span>
         </button>
       </div>
     </div>
@@ -722,7 +986,14 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 8px;">
+      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <span id="syncBadgeText" style="font-size: 11.5px; color: var(--muted); padding-right: 4px;"></span>
+
+        <button class="btn btn-secondary" onclick="syncDataFromWebOrWorker(true)" style="font-size: 12px; padding: 6px 14px; color: #0284c7; border-color: #bae6fd; background: #f0f9ff;" title="Kéo dữ liệu từ file index trên website về">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          <span>Đồng bộ từ Web</span>
+        </button>
+
         <button class="btn btn-secondary" onclick="testWorkerConnection()" style="font-size: 12px; padding: 6px 14px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
           <span>Kiểm tra kết nối</span>
@@ -1069,6 +1340,85 @@
 
   </main>
 
+  <!-- ==========================================================================
+       POPUP ĐĂNG NHẬP XÁC THỰC & TỰ ĐỘNG ĐỒNG BỘ DỮ LIỆU TỪ WEB
+       ========================================================================== -->
+  <div class="auth-modal-backdrop show" id="authModalBackdrop">
+    <div class="auth-modal-card">
+      <div class="auth-modal-header">
+        <div class="auth-icon-wrap">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <h2 class="auth-modal-title">Xác Thực Quản Trị &amp; Đồng Bộ</h2>
+        <p class="auth-modal-sub">
+          Vui lòng nhập <strong>Worker URL</strong> và <strong>Secret Key</strong> để đăng nhập. Hệ thống sẽ tự động kéo toàn bộ thông tin từ file trên web về Admin để dữ liệu luôn khớp 100%!
+        </p>
+      </div>
+
+      <div class="auth-modal-body">
+        <form id="authLoginForm" onsubmit="event.preventDefault(); handleAuthLoginAndSync();">
+          <!-- Worker URL Input -->
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="authWorkerUrl">
+              <span>Đường Dẫn Cloudflare Worker URL *</span>
+            </label>
+            <div class="auth-input-wrap">
+              <span class="auth-input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              </span>
+              <input type="url" id="authWorkerUrl" class="auth-input-text" placeholder="https://your-profile-worker.workers.dev" required autocomplete="url">
+            </div>
+            <span class="auth-field-hint">Đường dẫn Cloudflare Worker kết nối với GitHub Pages của trang web.</span>
+          </div>
+
+          <!-- Secret Key Input -->
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="authSecretKey">
+              <span>Secret Key (Mã Bí Mật Admin)</span>
+            </label>
+            <div class="auth-input-wrap">
+              <span class="auth-input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+              <input type="password" id="authSecretKey" class="auth-input-text" placeholder="Nhập ADMIN_SECRET nếu có cài..." autocomplete="current-password">
+              <button type="button" class="btn-toggle-eye" onclick="toggleAuthPassword()" title="Ẩn/Hiện mã bí mật">
+                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+            <span class="auth-field-hint">Mã bí mật <code>ADMIN_SECRET</code> cấu hình trên Cloudflare Worker (để trống nếu không cài).</span>
+          </div>
+
+          <!-- Checkbox Ghi Nhớ -->
+          <div class="auth-remember-row">
+            <label class="auth-checkbox-label">
+              <input type="checkbox" id="authRemember" checked>
+              <span>Ghi nhớ thông tin trên trình duyệt này</span>
+            </label>
+          </div>
+
+          <!-- Hộp Trạng Thái Tiến Trình -->
+          <div class="auth-status-box info" id="authStatusBox" style="display: none;">
+            <div id="authStatusText" style="display: flex; align-items: center; gap: 8px; width: 100%;">
+              <span>Đang kiểm tra kết nối...</span>
+            </div>
+          </div>
+
+          <!-- Nút Đăng Nhập & Đồng Bộ -->
+          <div class="auth-actions">
+            <button type="submit" class="btn-auth-submit" id="btnAuthSubmit">
+              <svg id="authSubmitIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              <span id="authSubmitText">ĐĂNG NHẬP &amp; ĐỒNG BỘ DỮ LIỆU</span>
+            </button>
+
+            <button type="button" class="btn-auth-skip" onclick="skipAuthModal()">
+              Bỏ qua &amp; Sử dụng dữ liệu hiện có (Chế độ xem trước)
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Xem Trước Mã QR -->
   <div class="modal-backdrop" id="qrPreviewModal">
     <div class="modal-dialog" style="max-width: 420px; text-align: center;">
@@ -1236,36 +1586,112 @@
       }
     };
 
-    // Khởi tạo
+    // ==========================================================================
+    // KHỞI TẠO KHI TẢI TRANG (DOM READY)
+    // ==========================================================================
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. Nạp cấu hình Worker riêng từ localStorage
+      // 1. Nạp cấu hình Worker & Secret đã lưu từ localStorage
       const savedWorkerUrl = localStorage.getItem("wontrade_profile_worker_url") || "";
       const savedSecret = localStorage.getItem("wontrade_profile_worker_secret") || "";
-      if (document.getElementById("workerUrlInput")) document.getElementById("workerUrlInput").value = savedWorkerUrl;
-      if (document.getElementById("workerSecretInput")) document.getElementById("workerSecretInput").value = savedSecret;
 
-      // 2. Nạp cấu hình từ window.profileConfig hoặc fetch từ ../index.html
+      // Điền vào thanh cấu hình Worker Bar ở đầu trang
+      const workerUrlInput = document.getElementById("workerUrlInput");
+      const workerSecretInput = document.getElementById("workerSecretInput");
+      if (workerUrlInput) workerUrlInput.value = savedWorkerUrl;
+      if (workerSecretInput) workerSecretInput.value = savedSecret;
+
+      // Điền vào Popup Đăng Nhập
+      const authWorkerUrl = document.getElementById("authWorkerUrl");
+      const authSecretKey = document.getElementById("authSecretKey");
+      if (authWorkerUrl) authWorkerUrl.value = savedWorkerUrl;
+      if (authSecretKey) authSecretKey.value = savedSecret;
+
+      // 2. Khởi tạo dữ liệu từ window.profileConfig nếu có sẵn
       if (typeof window.profileConfig !== "undefined" && window.profileConfig) {
         currentProfile = JSON.parse(JSON.stringify(window.profileConfig));
+      }
+      populateFormData();
+
+      // 3. HIỂN THỊ POPUP ĐĂNG NHẬP & ĐỒNG BỘ DỮ LIỆU
+      showAuthModal();
+    });
+
+    // ==========================================================================
+    // CÁC HÀM QUẢN LÝ POPUP ĐĂNG NHẬP & ẨN/HIỆN MẬT KHẨU
+    // ==========================================================================
+    function showAuthModal() {
+      const modal = document.getElementById("authModalBackdrop");
+      if (!modal) return;
+
+      // Đồng bộ giá trị hiện tại vào modal
+      const savedWorkerUrl = localStorage.getItem("wontrade_profile_worker_url") || document.getElementById("workerUrlInput")?.value || "";
+      const savedSecret = localStorage.getItem("wontrade_profile_worker_secret") || document.getElementById("workerSecretInput")?.value || "";
+
+      const authWorkerUrl = document.getElementById("authWorkerUrl");
+      const authSecretKey = document.getElementById("authSecretKey");
+      if (authWorkerUrl && savedWorkerUrl) authWorkerUrl.value = savedWorkerUrl;
+      if (authSecretKey && savedSecret) authSecretKey.value = savedSecret;
+
+      modal.classList.add("show");
+
+      // Reset trạng thái status box
+      const statusBox = document.getElementById("authStatusBox");
+      if (statusBox) statusBox.style.display = "none";
+
+      setTimeout(() => {
+        if (authWorkerUrl && !authWorkerUrl.value) {
+          authWorkerUrl.focus();
+        } else if (authSecretKey) {
+          authSecretKey.focus();
+        }
+      }, 150);
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById("authModalBackdrop");
+      if (modal) modal.classList.remove("show");
+    }
+
+    function skipAuthModal() {
+      closeAuthModal();
+      showToast("Đang mở trang quản trị ở chế độ xem trước nội bộ.", "normal");
+    }
+
+    function toggleAuthPassword() {
+      const input = document.getElementById("authSecretKey");
+      const icon = document.getElementById("eyeIcon");
+      if (!input || !icon) return;
+
+      if (input.type === "password") {
+        input.type = "text";
+        icon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>`;
       } else {
-        // Tự động đọc từ ../index.html nếu mở trực tiếp trên server/localhost
-        try {
-          fetch("../index.html?v=" + Date.now())
-            .then(res => res.text())
-            .then(html => {
-              const match = html.match(/var\s+profileConfig\s*=\s*(\{[\s\S]*?\});/);
-              if (match) {
-                currentProfile = JSON.parse(match[1]);
-                populateFormData();
-              }
-            })
-            .catch(() => {});
-        } catch (e) {}
+        input.type = "password";
+        icon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
+      }
+    }
+
+    function setAuthStatus(message, type = "info") {
+      const box = document.getElementById("authStatusBox");
+      const textEl = document.getElementById("authStatusText");
+      if (!box || !textEl) return;
+
+      box.style.display = "flex";
+      box.className = `auth-status-box ${type}`;
+
+      let iconHtml = "";
+      if (type === "loading") {
+        iconHtml = `<svg class="spin-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>`;
+      } else if (type === "success") {
+        iconHtml = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+      } else if (type === "error") {
+        iconHtml = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+      } else {
+        iconHtml = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
       }
 
-      // 3. Đổ dữ liệu vào biểu mẫu
-      populateFormData();
-    });
+      textEl.innerHTML = `${iconHtml}<span>${message}</span>`;
+    }
 
     // Lưu cài đặt vào localStorage riêng cho Profile Admin
     function saveWorkerSettings() {
@@ -1814,7 +2240,180 @@ if (typeof window !== "undefined") {
       });
     }
 
-    // Kiểm tra kết nối Worker
+    // ==========================================================================
+    // XỬ LÝ ĐĂNG NHẬP VÀ ĐỒNG BỘ DỮ LIỆU TỪ WEB (AUTH & SYNC LOGIC)
+    // ==========================================================================
+    async function handleAuthLoginAndSync() {
+      const urlInput = document.getElementById("authWorkerUrl");
+      const secretInput = document.getElementById("authSecretKey");
+      const rememberInput = document.getElementById("authRemember");
+      const btn = document.getElementById("btnAuthSubmit");
+      const btnText = document.getElementById("authSubmitText");
+      const btnIcon = document.getElementById("authSubmitIcon");
+
+      const workerUrl = urlInput ? urlInput.value.trim() : "";
+      const secretKey = secretInput ? secretInput.value.trim() : "";
+      const remember = rememberInput ? rememberInput.checked : true;
+
+      if (!workerUrl) {
+        setAuthStatus("Vui lòng nhập đường dẫn Cloudflare Worker URL!", "error");
+        if (urlInput) urlInput.focus();
+        return;
+      }
+
+      // Đặt nút ở trạng thái đang xử lý
+      btn.disabled = true;
+      if (btnIcon) btnIcon.classList.add("spin-icon");
+      if (btnText) btnText.textContent = "ĐANG XÁC THỰC & ĐỒNG BỘ...";
+      setAuthStatus("Đang kết nối tới Cloudflare Worker & kiểm tra Secret Key...", "loading");
+
+      try {
+        await syncDataFromWebOrWorker(false, workerUrl, secretKey, remember);
+      } catch (err) {
+        setAuthStatus("Lỗi kết nối: " + err.message, "error");
+      } finally {
+        btn.disabled = false;
+        if (btnIcon) btnIcon.classList.remove("spin-icon");
+        if (btnText) btnText.textContent = "ĐĂNG NHẬP & ĐỒNG BỘ DỮ LIỆU";
+      }
+    }
+
+    // ==========================================================================
+    // HÀM ĐỒNG BỘ DỮ LIỆU TỪ WEB & WORKER VỀ TRANG ADMIN
+    // ==========================================================================
+    async function syncDataFromWebOrWorker(isManualClick = false, customUrl = null, customSecret = null, remember = true) {
+      const workerUrl = (customUrl !== null ? customUrl : (document.getElementById("workerUrlInput")?.value || "")).trim();
+      const secret = (customSecret !== null ? customSecret : (document.getElementById("workerSecretInput")?.value || "")).trim();
+
+      if (!workerUrl) {
+        if (isManualClick) {
+          showToast("Vui lòng nhập Worker URL trước!", "error");
+          showAuthModal();
+        } else {
+          setAuthStatus("Vui lòng nhập Cloudflare Worker URL!", "error");
+        }
+        return false;
+      }
+
+      if (isManualClick) {
+        showToast("Đang đồng bộ kéo dữ liệu mới nhất từ website về...");
+      }
+
+      let workerProfile = null;
+      let webProfile = null;
+      let hasWorkerAuth = false;
+
+      // BƯỚC 1: Kết nối Worker kiểm tra Secret Key và lấy file index.html trên GitHub
+      try {
+        const headers = {};
+        if (secret) headers["X-Admin-Key"] = secret;
+
+        const testUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}owner=spac2dev&repo=infomeomeorise&path=index.html&includeContent=true&t=${Date.now()}`;
+        const res = await fetch(testUrl, { method: "GET", headers });
+        const text = await res.text();
+
+        // Kiểm tra mã HTTP 401 Unauthorized (Sai Secret Key)
+        if (res.status === 401) {
+          const errNotice = "Khóa bí mật (Secret Key) không chính xác! Vui lòng kiểm tra lại ADMIN_SECRET trên Cloudflare Worker.";
+          if (!isManualClick) {
+            setAuthStatus(errNotice, "error");
+          }
+          showToast(errNotice, "error");
+          return false;
+        }
+
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          if (text.includes("Hello World")) {
+            const hwNotice = "Worker hiện đang chạy code mẫu mặc định ('Hello World!'). Bạn cần dán mã nguồn file worker.js vào Cloudflare Worker và ấn Save & Deploy.";
+            if (!isManualClick) setAuthStatus(hwNotice, "error");
+            showToast(hwNotice, "error");
+            return false;
+          }
+          throw new Error(`Worker phản hồi không hợp lệ (${res.status}): ${text.slice(0, 100)}`);
+        }
+
+        if (res.ok && data.success) {
+          hasWorkerAuth = true;
+          if (data.profile) {
+            workerProfile = data.profile;
+          }
+        } else {
+          const errMsg = data.error || res.statusText || "Lỗi phản hồi từ Worker";
+          if (!isManualClick) setAuthStatus(errMsg, "error");
+          showToast(`Lỗi Worker: ${errMsg}`, "error");
+          return false;
+        }
+      } catch (workerErr) {
+        console.warn("Lỗi khi kết nối Worker:", workerErr);
+        if (!isManualClick) {
+          setAuthStatus(`Không thể kết nối Worker: ${workerErr.message}. Vui lòng kiểm tra đường dẫn URL hoặc mạng.`, "error");
+          return false;
+        }
+      }
+
+      // BƯỚC 2: Đồng thời kéo trực tiếp từ file index.html của website hiện tại (../index.html)
+      try {
+        const webRes = await fetch("../index.html?v=" + Date.now());
+        if (webRes.ok) {
+          const html = await webRes.text();
+          const match = html.match(/var\s+profileConfig\s*=\s*(\{[\s\S]*?\});/);
+          if (match) {
+            webProfile = JSON.parse(match[1]);
+          }
+        }
+      } catch (webErr) {
+        console.warn("Không thể fetch trực tiếp ../index.html:", webErr);
+      }
+
+      // BƯỚC 3: Chọn nguồn dữ liệu chuẩn xác nhất để gán vào currentProfile
+      // Ưu tiên dữ liệu từ GitHub (Worker) hoặc từ file index.html trên web hiện tại
+      const finalProfile = workerProfile || webProfile || (typeof window.profileConfig !== "undefined" ? window.profileConfig : null);
+
+      if (finalProfile) {
+        currentProfile = JSON.parse(JSON.stringify(finalProfile));
+        populateFormData();
+
+        // Cập nhật giá trị vào form và localStorage
+        const wInput = document.getElementById("workerUrlInput");
+        const sInput = document.getElementById("workerSecretInput");
+        if (wInput) wInput.value = workerUrl;
+        if (sInput) sInput.value = secret;
+
+        if (remember) {
+          localStorage.setItem("wontrade_profile_worker_url", workerUrl);
+          localStorage.setItem("wontrade_profile_worker_secret", secret);
+        }
+        sessionStorage.setItem("wontrade_profile_authenticated", "true");
+
+        // Cập nhật nhãn thời gian đồng bộ
+        const nowStr = new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        const badge = document.getElementById("syncBadgeText");
+        if (badge) {
+          badge.innerHTML = `✓ Đồng bộ lúc: <strong>${nowStr}</strong>`;
+          badge.style.color = "#059669";
+        }
+
+        if (!isManualClick) {
+          setAuthStatus("Đăng nhập và đồng bộ dữ liệu website thành công 100%! Đang mở giao diện quản trị...", "success");
+          setTimeout(() => {
+            closeAuthModal();
+          }, 450);
+        }
+
+        showToast("Đã xác thực & đồng bộ thông tin file web về Admin thành công!", "success");
+        return true;
+      } else {
+        const noDataMsg = "Không tìm thấy cấu hình profileConfig trong file website. Vui lòng kiểm tra lại file index.html!";
+        if (!isManualClick) setAuthStatus(noDataMsg, "error");
+        showToast(noDataMsg, "error");
+        return false;
+      }
+    }
+
+    // Kiểm tra kết nối Worker (dành cho nút Kiểm tra kết nối)
     async function testWorkerConnection() {
       saveWorkerSettings();
       const workerUrl = document.getElementById("workerUrlInput").value.trim();
@@ -1826,37 +2425,7 @@ if (typeof window !== "undefined") {
       }
 
       showToast("Đang kiểm tra kết nối tới Cloudflare Worker...");
-
-      try {
-        const headers = {};
-        if (secret) headers["X-Admin-Key"] = secret;
-
-        const testUrl = `${workerUrl}${workerUrl.includes("?") ? "&" : "?"}owner=spac2dev&repo=infomeomeorise&path=index.html`;
-        const res = await fetch(testUrl, { method: "GET", headers });
-        const text = await res.text();
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch (parseErr) {
-          if (text.includes("Hello World")) {
-            throw new Error("Worker hiện đang chạy mẫu mặc định ('Hello World!'). Bạn cần dán mã nguồn file worker.js vào Cloudflare Worker và ấn Save & Deploy.");
-          }
-          throw new Error(`Worker phản hồi không phải JSON (${res.status}): ${text.slice(0, 100)}`);
-        }
-
-        if (res.ok && data.success) {
-          showToast(`Kết nối Worker & GitHub (index.html) thành công! (${data.repo || "OK"})`, "success");
-          // Nếu có profile trên GitHub trả về, tự động cập nhật lại form
-          if (data.profile) {
-            currentProfile = data.profile;
-            populateFormData();
-          }
-        } else {
-          showToast(`Lỗi Worker: ${data.error || res.statusText}`, "error");
-        }
-      } catch (err) {
-        showToast(`Không thể kết nối Worker: ${err.message}`, "error");
-      }
+      await syncDataFromWebOrWorker(true, workerUrl, secret, true);
     }
 
     // ========================================================================
