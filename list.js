@@ -90,7 +90,7 @@ var profileConfig = {
       accountHolder: "DO LONG NHAT",
       qrUrl: "https://api.vietqr.io/image/970422-34568888668888-compact.jpg?accountName=DO%20LONG%20NHAT",
       logoType: "mb",
-      logoImg: "icon/mb.jpg"
+      logoImg: "https://info.meomeorise.com/icon/mb.png"
     },
     {
       id: "vib",
@@ -100,7 +100,7 @@ var profileConfig = {
       accountHolder: "ĐỖ LONG NHẬT",
       qrUrl: "https://api.vietqr.io/image/970441-014473397-compact.jpg?accountName=DO%20LONG%20NHAT",
       logoType: "vib",
-      logoImg: "icon/vib.webp"
+      logoImg: "https://info.meomeorise.com/icon/vib.png"
     },
     {
       id: "momo",
@@ -111,7 +111,7 @@ var profileConfig = {
       qrUrl: "media/momo.png",
       momoUrl: "https://nhantien.momo.vn/0949257924",
       logoType: "momo",
-      logoImg: "icon/momo.webp"
+      logoImg: "https://info.meomeorise.com/icon/momo.png"
     }
   ],
   systemChannels: {

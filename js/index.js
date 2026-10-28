@@ -832,7 +832,7 @@ function renderProfileFromConfig() {
         return `
           <div class="transfer-item-row">
             <div class="transfer-bank-logo">
-              ${b.logoImg ? `<img src="${escapeHtml(b.logoImg)}" alt="${escapeHtml(b.bankName || '')}" class="bank-logo-img" onerror="this.src='icon/icon.png'">` : getBankLogoSvg(b.logoType || b.bankCode, b.bankName)}
+              ${b.logoImg ? `<img src="${escapeHtml(b.logoImg)}" alt="${escapeHtml(b.bankName || '')}" class="bank-logo-img" onerror="this.onerror=null;this.src='icon/${(b.logoType||b.bankCode||b.bankName||'').toLowerCase().includes('vib')?'vib.png':(b.logoType||b.bankCode||b.bankName||'').toLowerCase().includes('momo')?'momo.png':'mb.png'}';">` : getBankLogoSvg(b.logoType || b.bankCode, b.bankName)}
             </div>
 
             <div class="transfer-item-content">
@@ -1076,21 +1076,21 @@ function getSocialSvgIcon(id) {
 }
 
 function getBankLogoSvg(logoType, bankName) {
-  const t = (logoType || bankName || '').toLowerCase();
+  const t = ((logoType || '') + ' ' + (bankName || '')).toLowerCase();
   
   // 1. VÍ ĐIỆN TỬ MOMO
   if (t.includes('momo')) {
-    return `<img src="icon/momo.webp" alt="MoMo" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
+    return `<img src="https://info.meomeorise.com/icon/momo.png" alt="MoMo" class="bank-logo-img" onerror="this.onerror=null;this.src='icon/momo.png'">`;
   }
 
   // 2. NGÂN HÀNG QUỐC TẾ VIB
   if (t.includes('vib')) {
-    return `<img src="icon/vib.webp" alt="VIB" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
+    return `<img src="https://info.meomeorise.com/icon/vib.png" alt="VIB" class="bank-logo-img" onerror="this.onerror=null;this.src='icon/vib.png'">`;
   }
 
   // 3. NGÂN HÀNG QUÂN ĐỘI MB BANK
   if (t.includes('mb') || t.includes('quân đội')) {
-    return `<img src="icon/mb.jpg" alt="MB Bank" class="bank-logo-img" onerror="this.src='icon/icon.png'">`;
+    return `<img src="https://info.meomeorise.com/icon/mb.png" alt="MB Bank" class="bank-logo-img" onerror="this.onerror=null;this.src='icon/mb.png'">`;
   }
 
   if (t.includes('mbv')) {

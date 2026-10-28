@@ -1545,7 +1545,7 @@
           accountHolder: "DO LONG NHAT",
           qrUrl: "https://api.vietqr.io/image/970422-34568888668888-compact.jpg?accountName=DO%20LONG%20NHAT",
           logoType: "mb",
-          logoImg: "icon/mb.jpg"
+          logoImg: "https://info.meomeorise.com/icon/mb.png"
         },
         {
           id: "vib",
@@ -1555,7 +1555,7 @@
           accountHolder: "ĐỖ LONG NHẬT",
           qrUrl: "https://api.vietqr.io/image/970441-014473397-compact.jpg?accountName=DO%20LONG%20NHAT",
           logoType: "vib",
-          logoImg: "icon/vib.webp"
+          logoImg: "https://info.meomeorise.com/icon/vib.png"
         },
         {
           id: "momo",
@@ -1566,7 +1566,7 @@
           qrUrl: "media/momo.png",
           momoUrl: "https://nhantien.momo.vn/0949257924",
           logoType: "momo",
-          logoImg: "icon/momo.webp"
+          logoImg: "https://info.meomeorise.com/icon/momo.png"
         }
       ],
       systemChannels: {
@@ -1951,13 +1951,50 @@
     }
 
     // 5. RENDER NGÂN HÀNG (BANKS)
+    const BANK_PRESETS = {
+      mb: {
+        bankName: "Ngân hàng Quân Đội (MB Bank)",
+        bankCode: "MB",
+        logoType: "mb",
+        logoImg: "https://info.meomeorise.com/icon/mb.png"
+      },
+      vib: {
+        bankName: "Ngân hàng Quốc Tế VIB",
+        bankCode: "VIB",
+        logoType: "vib",
+        logoImg: "https://info.meomeorise.com/icon/vib.png"
+      },
+      momo: {
+        bankName: "Ví Điện Tử MoMo",
+        bankCode: "MOMO",
+        logoType: "momo",
+        logoImg: "https://info.meomeorise.com/icon/momo.png"
+      }
+    };
+
+    function detectBankKey(item) {
+      if (item && item.logoType && BANK_PRESETS[item.logoType]) return item.logoType;
+      const str = (((item && item.bankCode) || '') + ' ' + ((item && item.bankName) || '') + ' ' + ((item && item.id) || '')).toLowerCase();
+      if (str.includes('vib')) return 'vib';
+      if (str.includes('momo')) return 'momo';
+      return 'mb';
+    }
+
     function renderBanksList() {
       const container = document.getElementById("banksListWrap");
       const list = currentProfile.banks || [];
-      container.innerHTML = list.map((item, idx) => `
+      container.innerHTML = list.map((item, idx) => {
+        const bKey = detectBankKey(item);
+        const preset = BANK_PRESETS[bKey] || BANK_PRESETS.mb;
+        const currentLogo = preset.logoImg;
+
+        return `
         <div class="dynamic-item-card" data-idx="${idx}">
           <div class="dynamic-item-header">
-            <span class="dynamic-item-title">Tài khoản #${idx + 1}: ${escapeHtml(item.bankName || '')}</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <img src="${currentLogo}" alt="${escapeHtml(item.bankName || preset.bankName)}" class="bnk-logo-preview" style="width: 32px; height: 32px; object-fit: contain; border-radius: 6px; background: #fff; border: 1px solid var(--border); padding: 2px;" onerror="this.onerror=null;this.src='../icon/${bKey === 'vib' ? 'vib.png' : bKey === 'momo' ? 'momo.png' : 'mb.png'}';">
+              <span class="dynamic-item-title">Tài khoản #${idx + 1}: ${escapeHtml(item.bankName || preset.bankName)}</span>
+            </div>
             <div style="display: flex; gap: 8px;">
               <button type="button" class="btn btn-secondary" onclick="previewBankQr(${idx})" style="padding: 4px 10px; font-size: 11px;">
                 Xem QR
@@ -1966,42 +2003,91 @@
             </div>
           </div>
           <div class="form-grid-2">
+            <div class="form-group full">
+              <label class="form-label" style="font-weight:700;">Lựa chọn Ngân Hàng / Ví Điện Tử (Cố định logo) *</label>
+              <select class="form-control bnk-preset" onchange="onBankPresetChange(this, ${idx})">
+                <option value="mb" ${bKey === 'mb' ? 'selected' : ''}>Ngân hàng Quân Đội (MB Bank)</option>
+                <option value="vib" ${bKey === 'vib' ? 'selected' : ''}>Ngân hàng Quốc Tế VIB</option>
+                <option value="momo" ${bKey === 'momo' ? 'selected' : ''}>Ví Điện Tử MoMo</option>
+              </select>
+            </div>
             <div class="form-group">
               <label class="form-label">Tên Ngân Hàng hiển thị *</label>
-              <input type="text" class="form-control bnk-name" value="${escapeHtml(item.bankName || '')}" placeholder="Ngân hàng MB BANK">
+              <input type="text" class="form-control bnk-name" value="${escapeHtml(item.bankName || preset.bankName)}" placeholder="${preset.bankName}">
             </div>
             <div class="form-group">
-              <label class="form-label">Mã ngân hàng (VietQR code: MB, VCB, TCB, ACB...)</label>
-              <input type="text" class="form-control bnk-code" value="${escapeHtml(item.bankCode || '')}" placeholder="MB">
+              <label class="form-label">Mã ngân hàng (MB, VIB, MOMO)</label>
+              <input type="text" class="form-control bnk-code" value="${escapeHtml(item.bankCode || preset.bankCode)}" placeholder="${preset.bankCode}">
             </div>
             <div class="form-group">
-              <label class="form-label">Số tài khoản *</label>
+              <label class="form-label">Số tài khoản / Số điện thoại *</label>
               <input type="text" class="form-control bnk-acc" value="${escapeHtml(item.accountNumber || '')}" placeholder="0949257924">
             </div>
             <div class="form-group">
               <label class="form-label">Tên chủ tài khoản (Viết hoa không dấu) *</label>
-              <input type="text" class="form-control bnk-holder" value="${escapeHtml(item.accountHolder || '')}" placeholder="NGUYEN LONG NHAT">
+              <input type="text" class="form-control bnk-holder" value="${escapeHtml(item.accountHolder || '')}" placeholder="DO LONG NHAT">
             </div>
             <div class="form-group full">
-              <label class="form-label">Đường dẫn Mã QR Chuyển Khoản (Để trống để tự tạo mã VietQR chuẩn)</label>
-              <input type="url" class="form-control bnk-qr" value="${escapeHtml(item.qrUrl || '')}" placeholder="https://api.vietqr.io/image/970422-0949257924-compact.jpg?accountName=NGUYEN%20LONG%20NHAT">
+              <label class="form-label">Đường dẫn Mã QR Chuyển Khoản (Để trống để tự tạo mã chuẩn)</label>
+              <input type="url" class="form-control bnk-qr" value="${escapeHtml(item.qrUrl || '')}" placeholder="${bKey === 'momo' ? 'media/momo.png' : 'https://api.vietqr.io/image/970422-STK-compact.jpg?accountName=DO%20LONG%20NHAT'}">
             </div>
           </div>
         </div>
-      `).join('');
+      `;
+      }).join('');
     }
 
-    function addBankItem() {
+    function onBankPresetChange(selectEl, idx) {
+      const val = selectEl.value;
+      const preset = BANK_PRESETS[val];
+      if (!preset) return;
+      const card = selectEl.closest('.dynamic-item-card');
+      if (!card) return;
+
+      const nameInput = card.querySelector('.bnk-name');
+      const codeInput = card.querySelector('.bnk-code');
+      const qrInput = card.querySelector('.bnk-qr');
+      const logoImg = card.querySelector('.bnk-logo-preview');
+      const titleSpan = card.querySelector('.dynamic-item-title');
+
+      if (nameInput) nameInput.value = preset.bankName;
+      if (codeInput) codeInput.value = preset.bankCode;
+      if (logoImg) {
+        logoImg.src = preset.logoImg;
+        logoImg.onerror = function() {
+          this.onerror = null;
+          this.src = '../icon/' + (val === 'vib' ? 'vib.png' : val === 'momo' ? 'momo.png' : 'mb.png');
+        };
+      }
+      if (titleSpan) titleSpan.textContent = `Tài khoản #${idx + 1}: ${preset.bankName}`;
+      if (qrInput && val === 'momo' && !qrInput.value) {
+        qrInput.value = 'media/momo.png';
+      }
+    }
+
+    function addBankItem(forcedKey) {
       if (!currentProfile.banks) currentProfile.banks = [];
       collectCurrentFormData();
+
+      const existingKeys = currentProfile.banks.map(b => detectBankKey(b));
+      let nextKey = forcedKey;
+      if (!nextKey) {
+        if (!existingKeys.includes('mb')) nextKey = 'mb';
+        else if (!existingKeys.includes('vib')) nextKey = 'vib';
+        else if (!existingKeys.includes('momo')) nextKey = 'momo';
+        else nextKey = 'mb';
+      }
+      const preset = BANK_PRESETS[nextKey];
+
       currentProfile.banks.push({
-        id: "bank_" + Date.now(),
-        bankName: "Ngân hàng Quân Đội (MB Bank)",
-        bankCode: "MB",
-        accountNumber: "0949257924",
-        accountHolder: "NGUYEN LONG NHAT",
-        qrUrl: "",
-        logoType: "mb"
+        id: nextKey + "_" + Date.now().toString().slice(-4),
+        bankName: preset.bankName,
+        bankCode: preset.bankCode,
+        accountNumber: "",
+        accountHolder: currentProfile.banks[0]?.accountHolder || "DO LONG NHAT",
+        qrUrl: nextKey === 'momo' ? "media/momo.png" : "",
+        logoType: preset.logoType,
+        logoImg: preset.logoImg
       });
       renderBanksList();
     }
@@ -2150,20 +2236,34 @@
       // 5. Banks
       const bnkCards = document.querySelectorAll("#banksListWrap .dynamic-item-card");
       currentProfile.banks = Array.from(bnkCards).map(card => {
+        const presetVal = card.querySelector(".bnk-preset") ? card.querySelector(".bnk-preset").value : "";
         const bankName = card.querySelector(".bnk-name").value.trim();
         const bankCode = card.querySelector(".bnk-code").value.trim();
         const acc = card.querySelector(".bnk-acc").value.trim();
         const holder = card.querySelector(".bnk-holder").value.trim();
         const customQr = card.querySelector(".bnk-qr").value.trim();
-        const qrUrl = customQr || `https://api.vietqr.io/image/${bankCode || '970422'}-${acc}-compact.jpg?accountName=${encodeURIComponent(holder)}`;
+
+        let bKey = presetVal;
+        if (!bKey || !BANK_PRESETS[bKey]) {
+          const str = (bankCode + ' ' + bankName).toLowerCase();
+          if (str.includes('vib')) bKey = 'vib';
+          else if (str.includes('momo')) bKey = 'momo';
+          else bKey = 'mb';
+        }
+        const preset = BANK_PRESETS[bKey] || BANK_PRESETS.mb;
+
+        const defaultQrCode = bKey === 'vib' ? '970441' : '970422';
+        const qrUrl = customQr || (bKey === 'momo' ? 'media/momo.png' : `https://api.vietqr.io/image/${bankCode || preset.bankCode || defaultQrCode}-${acc}-compact.jpg?accountName=${encodeURIComponent(holder)}`);
+
         return {
-          id: (bankCode || 'bank').toLowerCase() + '_' + acc.slice(-4),
-          bankName,
-          bankCode,
+          id: bKey + '_' + (acc.slice(-4) || Date.now().toString().slice(-4)),
+          bankName: bankName || preset.bankName,
+          bankCode: bankCode || preset.bankCode,
           accountNumber: acc,
           accountHolder: holder,
-          qrUrl,
-          logoType: (bankCode || bankName).toLowerCase().includes('mbv') ? 'mbv' : (bankCode || bankName).toLowerCase().includes('mb') ? 'mb' : 'bank'
+          qrUrl: qrUrl,
+          logoType: preset.logoType,
+          logoImg: preset.logoImg
         };
       }).filter(b => b.accountNumber && b.accountHolder);
 
